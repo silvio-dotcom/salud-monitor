@@ -91,7 +91,7 @@ function renderInsightsPanel() {
 
   const aiBlock = renderAiInsightsBlock({
     meta,
-    items: state.aiInsights.result?.items,
+    paragraph: state.aiInsights.result?.paragraph,
     loading: state.aiInsights.loading,
     error: null,
   });

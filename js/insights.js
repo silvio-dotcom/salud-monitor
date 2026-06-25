@@ -146,7 +146,7 @@ export function renderInsights(container, items, { aiBlock = "" } = {}) {
   container.innerHTML = rulesHtml + aiBlock;
 }
 
-export function renderAiInsightsBlock({ meta, items, loading, error }) {
+export function renderAiInsightsBlock({ meta, paragraph, loading, error }) {
   if (loading) {
     return `
       <div class="ai-insights-panel">
@@ -158,17 +158,14 @@ export function renderAiInsightsBlock({ meta, items, loading, error }) {
     return `
       <div class="ai-insights-panel">
         <div class="ai-insights-header">✨ ${meta || "Insight IA"}</div>
-        <div class="insight-item warn">• ${error}</div>
+        <p class="ai-insights-text warn">${error}</p>
       </div>`;
   }
-  if (!items?.length) return "";
-  const body = items
-    .map((item) => `<div class="insight-item ai ${item.type}">• ${item.text}</div>`)
-    .join("");
+  if (!paragraph) return "";
   return `
     <div class="ai-insights-panel">
       <div class="ai-insights-header">✨ ${meta}</div>
-      ${body}
+      <p class="ai-insights-text">${paragraph}</p>
     </div>`;
 }
 
