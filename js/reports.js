@@ -2,6 +2,7 @@ import { jsPDF } from "jspdf";
 import { formatDateTime, glucoseTypeLabel, classifyBloodPressure, isGlucoseInRange } from "./config.js";
 import { exportAllData } from "./storage.js";
 
+const PDF_DAYS = 60;
 export async function downloadJsonExport() {
   const data = await exportAllData();
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
@@ -31,17 +32,20 @@ export async function generateMedicalPdf({ profile, glucose, blood_pressure }) {
   y += 10;
   doc.setTextColor(0);
 
-  const cutoff = Date.now() - 30 * 86400000;
-  const g30 = glucose.filter((r) => new Date(r.recorded_at).getTime() >= cutoff);
-  const bp30 = blood_pressure.filter((r) => new Date(r.recorded_at).getTime() >= cutoff);
+  const cutoff = Date.now() - PDF_DAYS * 86400000;
+  const gRecent = glucose
+    .filter((r) => new Date(r.recorded_at).getTime() >= cutoff)
+    .sort((a, b) => new Date(b.recorded_at) - new Date(a.recorded_at));
+  const bpRecent = blood_pressure
+    .filter((r) => new Date(r.recorded_at).getTime() >= cutoff)
+    .sort((a, b) => new Date(b.recorded_at) - new Date(a.recorded_at));
 
-  y = sectionHeader(doc, "Glucosa (últimos 30 días)", margin, y);
+  y = sectionHeader(doc, `Glucosa (últimos ${PDF_DAYS} días)`, margin, y);
   y = tableHeader(doc, margin, y, ["Fecha", "Tipo", "mg/dL"]);
-  if (!g30.length) {
+  if (!gRecent.length) {
     y = tableRow(doc, margin, y, ["—", "Sin registros", "—"]);
   } else {
-    for (const r of g30.slice(0, 40)) {
-      if (y > 270) {
+    for (const r of gRecent) {      if (y > 270) {
         doc.addPage();
         y = margin;
       }
@@ -61,13 +65,12 @@ export async function generateMedicalPdf({ profile, glucose, blood_pressure }) {
     doc.addPage();
     y = margin;
   }
-  y = sectionHeader(doc, "Presión arterial (últimos 30 días)", margin, y);
+  y = sectionHeader(doc, `Presión arterial (últimos ${PDF_DAYS} días)`, margin, y);
   y = tableHeader(doc, margin, y, ["Fecha", "Clasificación", "mmHg"]);
-  if (!bp30.length) {
+  if (!bpRecent.length) {
     y = tableRow(doc, margin, y, ["—", "Sin registros", "—"]);
   } else {
-    for (const r of bp30.slice(0, 40)) {
-      if (y > 270) {
+    for (const r of bpRecent) {      if (y > 270) {
         doc.addPage();
         y = margin;
       }
