@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test:import": "node tests/import.test.mjs"
+    "test:import": "node tests/import.test.mjs",
+    "test:bp": "node tests/bp-classify.test.mjs"
   },
   "dependencies": {
     "chart.js": "^4.5.1",

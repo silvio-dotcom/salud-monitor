@@ -88,18 +88,19 @@ export function isGlucoseInRange(reading, goals) {
   return reading.value_mg_dl <= goal;
 }
 
+/** Clasificación AHA: se usa la categoría más alta que aplique. */
 export function classifyBloodPressure(systolic, diastolic) {
-  if (systolic < 120 && diastolic < 80) {
-    return { label: "Normal", className: "bp-normal" };
-  }
-  if (systolic >= 120 && systolic <= 129 && diastolic < 80) {
-    return { label: "Elevada", className: "bp-elevated" };
+  if (systolic >= 140 || diastolic >= 90) {
+    return { label: "Hipertensión etapa 2", className: "bp-high" };
   }
   if ((systolic >= 130 && systolic <= 139) || (diastolic >= 80 && diastolic <= 89)) {
-    return { label: "Hipertensión Etapa 1", className: "bp-high" };
+    return { label: "Hipertensión etapa 1", className: "bp-high" };
   }
-  if (systolic >= 140 || diastolic >= 90) {
-    return { label: "Hipertensión Etapa 2", className: "bp-high" };
+  if (systolic >= 120 && systolic <= 129 && diastolic < 80) {
+    return { label: "Presión arterial elevada", className: "bp-elevated" };
+  }
+  if (systolic < 120 && diastolic < 80) {
+    return { label: "Presión arterial normal", className: "bp-normal" };
   }
   return { label: "Fuera de rango", className: "bp-elevated" };
 }
