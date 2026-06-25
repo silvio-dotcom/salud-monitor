@@ -30,7 +30,7 @@ export const ARMS = {
 
 export const LOCAL_STORAGE_KEY = "salud-monitor-data-v1";
 
-export const DEFAULT_PATIENT_NAME = "Bebe Grijalva Cruz";
+export const DEFAULT_PATIENT_NAME = "Andy Grijalva Cruz";
 
 export function formatDateTime(iso) {
   const d = new Date(iso);

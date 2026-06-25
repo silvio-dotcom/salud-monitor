@@ -2,7 +2,7 @@
   "version": 1,
   "exported_at": "2026-06-25T08:00:00.000Z",
   "profile": {
-    "patient_name": "Bebe Grijalva Cruz",
+    "patient_name": "Andy Grijalva Cruz",
     "goals": { "fasting": 100, "pre_meal": 110, "post_1h": 140, "post_2h": 120 }
   },
   "glucose": [

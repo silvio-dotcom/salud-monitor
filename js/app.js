@@ -27,6 +27,7 @@ import {
   updateHistoryFilterOptions,
 } from "./history.js";
 import { downloadPdfReport } from "./reports.js";
+import { buildSaveCelebration } from "./cat-messages.js";
 
 const state = {
   tab: "glucose",
@@ -43,6 +44,16 @@ function toast(msg) {
   el.textContent = msg;
   container.appendChild(el);
   setTimeout(() => el.remove(), 3200);
+}
+
+function showCelebration(celeb) {
+  const modal = document.getElementById("celebration-modal");
+  document.getElementById("celebration-emoji").textContent = celeb.emoji;
+  document.getElementById("celebration-title").textContent = celeb.title;
+  document.getElementById("celebration-value").textContent = celeb.value;
+  document.getElementById("celebration-unit").textContent = celeb.unit;
+  document.getElementById("celebration-message").textContent = celeb.message;
+  modal.showModal();
 }
 
 async function refreshData() {
@@ -239,6 +250,7 @@ async function handleMeasureSubmit(e) {
   const notes = document.getElementById("measure-notes").value.trim();
 
   try {
+    let celebration;
     if (kind === "glucose") {
       const glucose_type = document.getElementById("measure-glucose-type").value;
       const value_mg_dl = Number(document.getElementById("measure-glucose-value").value);
@@ -250,17 +262,23 @@ async function handleMeasureSubmit(e) {
       if (glucose_type === "post_comida" && hours_post !== 1 && hours_post !== 2) {
         throw new Error("Selecciona 1 hora o 2 horas post-comida.");
       }
+      const meal =
+        glucose_type === "pre_comida" || glucose_type === "post_comida"
+          ? document.getElementById("measure-meal").value
+          : null;
       await saveGlucose({
         id,
         recorded_at,
         glucose_type,
         value_mg_dl,
-        meal:
-          glucose_type === "pre_comida" || glucose_type === "post_comida"
-            ? document.getElementById("measure-meal").value
-            : null,
+        meal,
         hours_post,
         notes,
+      });
+      celebration = buildSaveCelebration({
+        kind: "glucose",
+        payload: { glucose_type, value_mg_dl, meal, hours_post },
+        goals: state.profile.goals,
       });
     } else {
       const systolic = Number(document.getElementById("measure-systolic").value);
@@ -276,9 +294,14 @@ async function handleMeasureSubmit(e) {
         arm: document.getElementById("measure-arm").value,
         notes,
       });
+      celebration = buildSaveCelebration({
+        kind: "bp",
+        payload: { systolic, diastolic },
+        goals: state.profile.goals,
+      });
     }
     document.getElementById("measure-modal").close();
-    toast("Medida guardada");
+    showCelebration(celebration);
     await refreshData();
   } catch (err) {
     toast(err.message || "Error al guardar");
@@ -328,6 +351,10 @@ function bindUi() {
 
   document.getElementById("measure-systolic").addEventListener("input", updateBpClassification);
   document.getElementById("measure-diastolic").addEventListener("input", updateBpClassification);
+
+  document.getElementById("celebration-dismiss").addEventListener("click", () => {
+    document.getElementById("celebration-modal").close();
+  });
 
   document.querySelectorAll("[data-close]").forEach((btn) => {
     btn.addEventListener("click", () => btn.closest("dialog")?.close());

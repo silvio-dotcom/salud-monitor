@@ -205,7 +205,7 @@
         <button type="button" class="btn btn-icon modal-close" data-close aria-label="Cerrar">×</button>
       </div>
       <label for="settings-patient-name">Nombre del paciente</label>
-      <input type="text" id="settings-patient-name" name="patient_name" placeholder="Ej. Bebe Grijalva Cruz" />
+      <input type="text" id="settings-patient-name" name="patient_name" placeholder="Ej. Andy Grijalva Cruz" />
       <fieldset class="goals-fieldset">
         <legend>Metas de glucosa (mg/dL)</legend>
         <div class="field-row">
@@ -222,6 +222,22 @@
         <button type="submit" class="btn btn-primary">Guardar</button>
       </div>
     </form>
+  </dialog>
+
+  <!-- Modal: Confirmación felina -->
+  <dialog id="celebration-modal" class="modal celebration-modal" aria-labelledby="celebration-title">
+    <div class="celebration-body">
+      <div class="celebration-icon-wrap" aria-hidden="true">
+        <span id="celebration-emoji" class="celebration-emoji">🐱</span>
+      </div>
+      <h2 id="celebration-title" class="celebration-title">¡Ronroneos!</h2>
+      <div class="celebration-value-row">
+        <span id="celebration-value" class="celebration-value">95</span>
+        <span id="celebration-unit" class="celebration-unit">mg/dL</span>
+      </div>
+      <p id="celebration-message" class="celebration-message">Ronroneos de felicidad, tus niveles están perfectos. 🐾🐾</p>
+      <button type="button" id="celebration-dismiss" class="btn-celebration">¡Entendido, miau! 🐾🐾</button>
+    </div>
   </dialog>
 
   <div id="toast-container" class="toast-container" aria-live="polite"></div>

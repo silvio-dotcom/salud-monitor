@@ -654,3 +654,95 @@ body {
     max-height: calc(100dvh - 2rem - var(--safe-top) - var(--safe-bottom));
   }
 }
+
+/* ── Confirmación felina ── */
+.celebration-modal {
+  padding: 0;
+  border: none;
+  background: transparent;
+  max-width: min(360px, calc(100vw - 2rem));
+  width: 100%;
+  margin: auto;
+}
+.celebration-modal::backdrop {
+  background: rgba(15, 23, 42, 0.55);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+.celebration-body {
+  background: var(--white);
+  border-radius: 24px;
+  padding: 2rem 1.5rem 1.35rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.18);
+}
+.celebration-icon-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 28px rgba(204, 122, 255, 0.4);
+  margin-bottom: 0.25rem;
+}
+.celebration-emoji { font-size: 2.25rem; line-height: 1; }
+.celebration-title {
+  margin: 0;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 1.85rem;
+  font-weight: 400;
+  color: #0f172a;
+  line-height: 1.15;
+}
+.celebration-value-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.4rem;
+  margin: 0.15rem 0;
+}
+.celebration-value {
+  font-size: 3.25rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.celebration-unit {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--slate-400);
+  text-transform: uppercase;
+}
+.celebration-message {
+  margin: 0.15rem 0 0.85rem;
+  max-width: 280px;
+  color: var(--slate-600);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+.btn-celebration {
+  width: 100%;
+  border: none;
+  border-radius: 999px;
+  background: #0f172a;
+  color: var(--white);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 1rem 1.25rem;
+  min-height: 52px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.btn-celebration:active { transform: scale(0.98); }

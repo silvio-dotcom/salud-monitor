@@ -9,7 +9,12 @@ function readLocal() {
   try {
     const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (!raw) return defaultLocalData();
-    return { ...defaultLocalData(), ...JSON.parse(raw) };
+    const data = { ...defaultLocalData(), ...JSON.parse(raw) };
+    if (data.profile?.patient_name === "Bebe Grijalva Cruz") {
+      data.profile.patient_name = DEFAULT_PATIENT_NAME;
+      writeLocal(data);
+    }
+    return data;
   } catch {
     return defaultLocalData();
   }

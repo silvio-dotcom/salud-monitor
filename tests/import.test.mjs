@@ -13,7 +13,7 @@ const fixture = readFileSync(join(__dirname, "fixtures/legacy-export.json"), "ut
 const payload = parseImportFile(fixture);
 assert.equal(payload.glucose.length, 3);
 assert.equal(payload.blood_pressure.length, 1);
-assert.equal(payload.profile.patient_name, "Bebe Grijalva Cruz");
+assert.equal(payload.profile.patient_name, "Andy Grijalva Cruz");
 assert.equal(payload.glucose[0].glucose_type, "ayunas");
 assert.equal(payload.glucose[0].value_mg_dl, 94);
 assert.equal(payload.glucose[1].glucose_type, "post_comida");
