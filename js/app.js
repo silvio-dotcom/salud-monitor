@@ -30,6 +30,7 @@ import {
 } from "./history.js";
 import { downloadPdfReport } from "./reports.js";
 import { buildSaveCelebration } from "./cat-messages.js";
+import { runBackup } from "./github-backup.js";
 
 const state = {
   tab: "glucose",
@@ -451,6 +452,36 @@ function bindUi() {
   document.getElementById("export-pdf-btn").addEventListener("click", async () => {
     await downloadPdfReport();
     toast("PDF generado");
+  });
+
+  document.getElementById("backup-github-btn").addEventListener("click", async () => {
+    const btn = document.getElementById("backup-github-btn");
+    const label = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = "Respaldando…";
+    try {
+      const result = await runBackup({
+        onCloud: (r) =>
+          toast(`Respaldo en GitHub: ${r.glucose} glucosa, ${r.bp} presión`),
+        onLocalFallback: (p) =>
+          toast(
+            `Nube no configurada — descargamos JSON (${p.glucose.length} glucosa, ${p.blood_pressure.length} presión)`
+          ),
+      });
+      if (result.mode === "github") {
+        btn.textContent = "¡Respaldo listo!";
+        setTimeout(() => {
+          btn.textContent = label;
+        }, 2500);
+      } else {
+        btn.textContent = label;
+      }
+    } catch (err) {
+      toast(err.message || "Error al respaldar");
+      btn.textContent = label;
+    } finally {
+      btn.disabled = false;
+    }
   });
 
   document.getElementById("settings-btn").addEventListener("click", () => {
