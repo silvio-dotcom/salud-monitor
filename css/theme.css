@@ -363,6 +363,13 @@ body {
   overflow: hidden;
 }
 .ai-insights-text.warn { color: #92400e; }
+.ai-insights-updated {
+  margin: 0.35rem 0 0;
+  font-size: 0.72rem;
+  color: var(--slate-400);
+  font-style: italic;
+}
+#refresh-insights:disabled { opacity: 0.6; cursor: wait; }
 
 /* Chart */
 .chart-header { margin-bottom: 0.5rem; }

@@ -42,7 +42,7 @@ const state = {
   },
   glucose: [],
   bloodPressure: [],
-  aiInsights: { loading: false, result: null },
+  aiInsights: { loading: false, result: null, refreshId: 0 },
 };
 
 function toast(msg) {
@@ -80,6 +80,14 @@ async function refreshData() {
   refreshAiInsights();
 }
 
+function formatInsightUpdated(at) {
+  if (!at) return "";
+  const mins = Math.round((Date.now() - at) / 60000);
+  if (mins < 1) return "Actualizado ahora";
+  if (mins < 60) return `Actualizado hace ${mins} min`;
+  return `Actualizado ${new Date(at).toLocaleTimeString("es-MX", { hour: "2-digit", minute: "2-digit" })}`;
+}
+
 function renderInsightsPanel() {
   const insightsEl = document.getElementById("insights-content");
   const week = state.profile.gestational_week ?? DEFAULT_GESTATIONAL_WEEK;
@@ -88,11 +96,16 @@ function renderInsightsPanel() {
     ? formatAiInsightMeta(state.aiInsights.result, week)
     : `Análisis inteligente · Semana ${week}`;
 
+  const updated = state.aiInsights.result?.updatedAt
+    ? formatInsightUpdated(state.aiInsights.result.updatedAt)
+    : "";
+
   const aiBlock = renderAiInsightsBlock({
     meta,
     paragraph: state.aiInsights.result?.paragraph,
     loading: state.aiInsights.loading,
-    error: null,
+    error: state.aiInsights.error,
+    updated,
     standalone: true,
   });
 
@@ -101,22 +114,46 @@ function renderInsightsPanel() {
 
 async function refreshAiInsights({ force = false } = {}) {
   if (force) clearAiInsightsCache();
+
+  const refreshId = ++state.aiInsights.refreshId;
   state.aiInsights.loading = true;
+  state.aiInsights.error = null;
   renderInsightsPanel();
 
+  const btn = document.getElementById("refresh-insights");
+  const btnLabel = btn?.dataset.label || btn?.textContent || "Actualizar";
+  if (btn) {
+    btn.dataset.label = btnLabel;
+    btn.disabled = true;
+    btn.textContent = "Actualizando…";
+  }
+
   try {
-    state.aiInsights.result = await loadAiInsights({
-      tab: state.tab,
-      glucose: state.glucose,
-      bloodPressure: state.bloodPressure,
-      goals: state.profile.goals,
-      profile: state.profile,
-    });
-  } catch {
-    state.aiInsights.result = null;
+    const result = await loadAiInsights(
+      {
+        tab: state.tab,
+        glucose: state.glucose,
+        bloodPressure: state.bloodPressure,
+        goals: state.profile.goals,
+        profile: state.profile,
+      },
+      { force }
+    );
+    if (refreshId !== state.aiInsights.refreshId) return;
+    state.aiInsights.result = result;
+    if (force) toast("Análisis actualizado");
+  } catch (err) {
+    if (refreshId !== state.aiInsights.refreshId) return;
+    state.aiInsights.error = err.message || "No se pudo actualizar el análisis";
+    if (force) toast(state.aiInsights.error);
   } finally {
+    if (refreshId !== state.aiInsights.refreshId) return;
     state.aiInsights.loading = false;
     renderInsightsPanel();
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = btnLabel;
+    }
   }
 }
 

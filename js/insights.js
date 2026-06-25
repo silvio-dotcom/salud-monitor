@@ -146,8 +146,10 @@ export function renderInsights(container, items, { aiBlock = "" } = {}) {
   container.innerHTML = rulesHtml + aiBlock;
 }
 
-export function renderAiInsightsBlock({ meta, paragraph, loading, error, standalone = false }) {
+export function renderAiInsightsBlock({ meta, paragraph, loading, error, updated, standalone = false }) {
   const wrapClass = standalone ? "ai-insights-standalone" : "ai-insights-panel";
+  const updatedLine = updated ? `<p class="ai-insights-updated">${updated}</p>` : "";
+
   if (loading) {
     return `
       <div class="${wrapClass}">
@@ -167,6 +169,7 @@ export function renderAiInsightsBlock({ meta, paragraph, loading, error, standal
     <div class="${wrapClass}">
       <div class="ai-insights-header">✨ ${meta}</div>
       <p class="ai-insights-text">${paragraph}</p>
+      ${updatedLine}
     </div>`;
 }
 
