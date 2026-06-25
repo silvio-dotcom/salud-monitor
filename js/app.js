@@ -453,16 +453,6 @@ function bindUi() {
     toast("PDF generado");
   });
 
-  document.getElementById("load-repo-backup-btn")?.addEventListener("click", async () => {
-    const result = await tryLoadRepoBackup({ forceMerge: true });
-    if (result.ok) {
-      toast(`Restaurados: ${result.glucose} glucosa, ${result.bp} presión`);
-      await refreshData();
-    } else {
-      toast("No hay datos en el servidor o no se pudo conectar");
-    }
-  });
-
   document.getElementById("settings-btn").addEventListener("click", () => {
     const modal = document.getElementById("settings-modal");
     document.getElementById("settings-patient-name").value = state.profile.patient_name;
