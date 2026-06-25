@@ -56,7 +56,7 @@ npm run preview
 ## Funciones
 
 - Glucosa (ayunas, pre/post comida) y presión arterial
-- Gráficas, insights, historial editable
+- Gráficas, historial editable
 - PDF médico + export/import JSON
 - PWA (agregar a pantalla de inicio en móvil)
 

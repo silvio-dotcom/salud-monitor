@@ -20,8 +20,6 @@ import {
 } from "./storage.js";
 import { renderGlucoseSummary, renderBpSummary } from "./dashboard.js";
 import { renderGlucoseChart, renderBpChart } from "./charts.js";
-import { computeGlucoseInsights, computeBpInsights, renderInsights, renderAiInsightsBlock } from "./insights.js";
-import { loadAiInsights, formatAiInsightMeta, clearAiInsightsCache } from "./ai-insights.js";
 import {
   renderHistory,
   filterReadings,
@@ -41,7 +39,6 @@ const state = {
   },
   glucose: [],
   bloodPressure: [],
-  aiInsights: { loading: false, result: null },
 };
 
 function toast(msg) {
@@ -74,50 +71,6 @@ async function refreshData() {
   state.bloodPressure = bloodPressure;
   document.getElementById("patient-name").textContent = profile.patient_name;
   render();
-  refreshAiInsights();
-}
-
-function renderInsightsPanel() {
-  const insightsEl = document.getElementById("insights-content");
-  const week = state.profile.gestational_week ?? DEFAULT_GESTATIONAL_WEEK;
-  const ruleItems =
-    state.tab === "glucose"
-      ? computeGlucoseInsights(state.glucose, state.profile.goals)
-      : computeBpInsights(state.bloodPressure);
-
-  const meta = state.aiInsights.result
-    ? formatAiInsightMeta(state.aiInsights.result, week)
-    : `Insight IA · Semana ${week} de embarazo`;
-
-  const aiBlock = renderAiInsightsBlock({
-    meta,
-    paragraph: state.aiInsights.result?.paragraph,
-    loading: state.aiInsights.loading,
-    error: null,
-  });
-
-  renderInsights(insightsEl, ruleItems, { aiBlock });
-}
-
-async function refreshAiInsights({ force = false } = {}) {
-  if (force) clearAiInsightsCache();
-  state.aiInsights.loading = true;
-  renderInsightsPanel();
-
-  try {
-    state.aiInsights.result = await loadAiInsights({
-      tab: state.tab,
-      glucose: state.glucose,
-      bloodPressure: state.bloodPressure,
-      goals: state.profile.goals,
-      profile: state.profile,
-    });
-  } catch {
-    state.aiInsights.result = null;
-  } finally {
-    state.aiInsights.loading = false;
-    renderInsightsPanel();
-  }
 }
 
 function render() {
@@ -133,7 +86,6 @@ function render() {
     chartTitle.textContent = "Tendencia de Glucosa";
     renderGlucoseSummary(summaryEl, state.glucose, state.profile.goals);
     renderGlucoseChart(canvas, state.glucose, state.profile.goals, state.chartRange);
-    renderInsightsPanel();
     const filtered = filterReadings(state.glucose, { search, typeFilter, tab: "glucose" });
     renderHistory(listEl, emptyEl, filtered, {
       tab: "glucose",
@@ -143,7 +95,6 @@ function render() {
     chartTitle.textContent = "Tendencia de Presión Arterial";
     renderBpSummary(summaryEl, state.bloodPressure);
     renderBpChart(canvas, state.bloodPressure, state.chartRange);
-    renderInsightsPanel();
     const filtered = filterReadings(state.bloodPressure, { search, typeFilter, tab: "bp" });
     renderHistory(listEl, emptyEl, filtered, { tab: "bp", goals: state.profile.goals });
   }
@@ -157,7 +108,6 @@ function setTab(tab) {
   updateHistoryFilterOptions(document.getElementById("history-filter"), tab);
   document.getElementById("history-search").value = "";
   render();
-  refreshAiInsights();
 }
 
 function openMeasureModal({ kind, record = null }) {
@@ -413,7 +363,6 @@ function bindUi() {
 
   document.getElementById("history-search").addEventListener("input", render);
   document.getElementById("history-filter").addEventListener("change", render);
-  document.getElementById("refresh-insights").addEventListener("click", () => refreshAiInsights({ force: true }));
 
   bindHistoryActions(document.getElementById("history-list"), {
     onEdit: (id) => {
@@ -474,9 +423,7 @@ function bindUi() {
     await saveProfile(profile);
     document.getElementById("settings-modal").close();
     toast("Configuración guardada");
-    clearAiInsightsCache();
     await refreshData();
-    refreshAiInsights({ force: true });
   });
 
   updateHistoryFilterOptions(document.getElementById("history-filter"), state.tab);
