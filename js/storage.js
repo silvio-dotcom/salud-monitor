@@ -2,6 +2,7 @@ import {
   DEFAULT_GOALS,
   LOCAL_STORAGE_KEY,
   DEFAULT_PATIENT_NAME,
+  DEFAULT_GESTATIONAL_WEEK,
   newId,
 } from "./config.js";
 
@@ -12,6 +13,10 @@ function readLocal() {
     const data = { ...defaultLocalData(), ...JSON.parse(raw) };
     if (data.profile?.patient_name === "Bebe Grijalva Cruz") {
       data.profile.patient_name = DEFAULT_PATIENT_NAME;
+      writeLocal(data);
+    }
+    if (data.profile && data.profile.gestational_week == null) {
+      data.profile.gestational_week = DEFAULT_GESTATIONAL_WEEK;
       writeLocal(data);
     }
     return data;
@@ -26,7 +31,11 @@ function writeLocal(data) {
 
 function defaultLocalData() {
   return {
-    profile: { patient_name: DEFAULT_PATIENT_NAME, goals: { ...DEFAULT_GOALS } },
+    profile: {
+      patient_name: DEFAULT_PATIENT_NAME,
+      gestational_week: DEFAULT_GESTATIONAL_WEEK,
+      goals: { ...DEFAULT_GOALS },
+    },
     glucose: [],
     blood_pressure: [],
   };
@@ -102,6 +111,8 @@ export async function importAllData(payload, { merge = true } = {}) {
   if (payload.profile) {
     data.profile = {
       patient_name: payload.profile.patient_name || payload.profile.name || data.profile.patient_name,
+      gestational_week:
+        payload.profile.gestational_week ?? data.profile.gestational_week ?? DEFAULT_GESTATIONAL_WEEK,
       goals: payload.profile.goals || data.profile.goals,
     };
   }

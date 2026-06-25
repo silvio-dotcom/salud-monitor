@@ -139,10 +139,37 @@ export function computeBpInsights(readings) {
   return items;
 }
 
-export function renderInsights(container, items) {
-  container.innerHTML = items
+export function renderInsights(container, items, { aiBlock = "" } = {}) {
+  const rulesHtml = items
     .map((item) => `<div class="insight-item ${item.type}">• ${item.text}</div>`)
     .join("");
+  container.innerHTML = rulesHtml + aiBlock;
+}
+
+export function renderAiInsightsBlock({ meta, items, loading, error }) {
+  if (loading) {
+    return `
+      <div class="ai-insights-panel">
+        <div class="ai-insights-header">✨ ${meta || "Insight IA"}</div>
+        <div class="ai-insights-loading">Analizando tus mediciones…</div>
+      </div>`;
+  }
+  if (error) {
+    return `
+      <div class="ai-insights-panel">
+        <div class="ai-insights-header">✨ ${meta || "Insight IA"}</div>
+        <div class="insight-item warn">• ${error}</div>
+      </div>`;
+  }
+  if (!items?.length) return "";
+  const body = items
+    .map((item) => `<div class="insight-item ai ${item.type}">• ${item.text}</div>`)
+    .join("");
+  return `
+    <div class="ai-insights-panel">
+      <div class="ai-insights-header">✨ ${meta}</div>
+      ${body}
+    </div>`;
 }
 
 export { glucoseTypeLabel };

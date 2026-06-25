@@ -26,6 +26,8 @@ jobs:
       - name: Install and build
         env:
           VITE_BASE_PATH: /${{ github.event.repository.name }}/
+          VITE_INSIGHTS_URL: ${{ secrets.SALUD_INSIGHTS_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.SALUD_SUPABASE_ANON_KEY }}
         run: |
           npm install
           npm run build

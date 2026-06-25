@@ -32,6 +32,9 @@ export const LOCAL_STORAGE_KEY = "salud-monitor-data-v1";
 
 export const DEFAULT_PATIENT_NAME = "Andy Grijalva Cruz";
 
+/** Semana gestacional actual (tercer trimestre). */
+export const DEFAULT_GESTATIONAL_WEEK = 33;
+
 export function formatDateTime(iso) {
   const d = new Date(iso);
   return d.toLocaleString("es-MX", {
