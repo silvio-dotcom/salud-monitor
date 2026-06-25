@@ -1,5 +1,5 @@
 import { jsPDF } from "jspdf";
-import { formatDateTime, glucoseTypeLabel, classifyBloodPressure } from "./config.js";
+import { formatDateTime, glucoseTypeLabel, classifyBloodPressure, isGlucoseInRange } from "./config.js";
 import { exportAllData } from "./storage.js";
 
 export async function downloadJsonExport() {
@@ -45,11 +45,14 @@ export async function generateMedicalPdf({ profile, glucose, blood_pressure }) {
         doc.addPage();
         y = margin;
       }
-      y = tableRow(doc, margin, y, [
-        formatDateTime(r.recorded_at),
-        glucoseTypeLabel(r),
-        String(r.value_mg_dl),
-      ]);
+      const inRange = isGlucoseInRange(r, profile.goals);
+      y = tableRow(
+        doc,
+        margin,
+        y,
+        [formatDateTime(r.recorded_at), glucoseTypeLabel(r), String(r.value_mg_dl)],
+        { highlightCols: inRange ? [] : [2] }
+      );
     }
   }
 
@@ -69,11 +72,14 @@ export async function generateMedicalPdf({ profile, glucose, blood_pressure }) {
         y = margin;
       }
       const c = classifyBloodPressure(r.systolic, r.diastolic);
-      y = tableRow(doc, margin, y, [
-        formatDateTime(r.recorded_at),
-        c.label,
-        `${r.systolic}/${r.diastolic}`,
-      ]);
+      const inRange = c.className === "bp-normal";
+      y = tableRow(
+        doc,
+        margin,
+        y,
+        [formatDateTime(r.recorded_at), c.label, `${r.systolic}/${r.diastolic}`],
+        { highlightCols: inRange ? [] : [1, 2] }
+      );
     }
   }
 
@@ -111,11 +117,18 @@ function tableHeader(doc, margin, y, cols) {
   return y + 5;
 }
 
-function tableRow(doc, margin, y, cols) {
+const PDF_RED = [220, 38, 38];
+
+function tableRow(doc, margin, y, cols, { highlightCols = [] } = {}) {
   doc.setFontSize(8);
-  doc.text(cols[0], margin, y, { maxWidth: 50 });
-  doc.text(cols[1], margin + 55, y, { maxWidth: 70 });
-  doc.text(cols[2], margin + 130, y);
+  const positions = [margin, margin + 55, margin + 130];
+  const widths = [50, 70, null];
+  cols.forEach((col, i) => {
+    doc.setTextColor(...(highlightCols.includes(i) ? PDF_RED : [0, 0, 0]));
+    const opts = widths[i] ? { maxWidth: widths[i] } : undefined;
+    doc.text(String(col), positions[i], y, opts);
+  });
+  doc.setTextColor(0);
   return y + 5;
 }
 
