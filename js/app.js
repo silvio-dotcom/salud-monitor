@@ -440,7 +440,7 @@ function bindUi() {
   });
 
   document.getElementById("load-repo-backup-btn")?.addEventListener("click", async () => {
-    const loaded = await tryLoadRepoBackup();
+    const loaded = await tryLoadRepoBackup({ forceMerge: true });
     toast(loaded ? "Backup del repositorio cargado" : "No hay data/backup.json en el sitio");
     if (loaded) await refreshData();
   });

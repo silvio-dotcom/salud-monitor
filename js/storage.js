@@ -131,17 +131,52 @@ export async function resetAllData() {
 }
 
 /** Load optional backup committed in the repo (public/data/backup.json). */
-export async function tryLoadRepoBackup({ onlyIfEmpty = false } = {}) {
+export async function tryLoadRepoBackup({ onlyIfEmpty = false, forceMerge = false } = {}) {
   try {
     const local = readLocal();
-    const empty = !local.glucose.length && !local.blood_pressure.length;
-    if (onlyIfEmpty && !empty) return false;
-
     const base = import.meta.env.BASE_URL || "/";
     const res = await fetch(`${base}data/backup.json`, { cache: "no-cache" });
     if (!res.ok) return false;
     const payload = await res.json();
-    await importAllData(payload, { merge: !empty && !onlyIfEmpty });
+
+    const backupGlucose = payload.glucose || payload.glucoseReadings || [];
+    const backupBp = payload.blood_pressure || payload.bloodPressure || [];
+    const hasLocalGlucose = local.glucose.length > 0;
+    const hasLocalBp = local.blood_pressure.length > 0;
+    const fullyEmpty = !hasLocalGlucose && !hasLocalBp;
+
+    if (forceMerge) {
+      await importAllData(payload, { merge: true });
+      return true;
+    }
+
+    if (onlyIfEmpty) {
+      if (fullyEmpty) {
+        await importAllData(payload, { merge: false });
+        return true;
+      }
+
+      const partial = {};
+      if (payload.profile) partial.profile = payload.profile;
+      let changed = false;
+
+      if (!hasLocalGlucose && backupGlucose.length) {
+        partial.glucose = backupGlucose;
+        changed = true;
+      }
+      if (!hasLocalBp && backupBp.length) {
+        partial.blood_pressure = backupBp;
+        changed = true;
+      }
+
+      if (changed) {
+        await importAllData(partial, { merge: true });
+        return true;
+      }
+      return false;
+    }
+
+    await importAllData(payload, { merge: true });
     return true;
   } catch {
     return false;
