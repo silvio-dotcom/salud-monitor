@@ -123,10 +123,11 @@ function openMeasureModal({ kind, record = null }) {
     document.getElementById("measure-glucose-type").value = record.glucose_type;
     document.getElementById("measure-glucose-value").value = record.value_mg_dl;
     syncGlucoseFormFields(record.glucose_type, record.meal);
-    document.getElementById("measure-hours-post").value = record.hours_post || 1;
+    setHoursPost(record.hours_post || 1);
     document.getElementById("measure-notes").value = record.notes || "";
   } else if (kind === "glucose") {
     syncGlucoseFormFields(document.getElementById("measure-glucose-type").value);
+    setHoursPost(1);
   }
 
   if (kind === "bp" && record) {
@@ -173,6 +174,15 @@ function syncGlucoseFormFields(type, selectedMeal) {
   mealFields.classList.toggle("hidden", !showMeal);
   hoursFields.classList.toggle("hidden", type !== "post_comida");
   if (showMeal) populateMealOptions(type, selectedMeal);
+  if (type === "post_comida" && !selectedMeal) setHoursPost(1);
+}
+
+function setHoursPost(hours) {
+  const value = hours === 2 ? 2 : 1;
+  document.getElementById("measure-hours-post").value = value;
+  document.querySelectorAll(".hours-segment").forEach((btn) => {
+    btn.classList.toggle("active", Number(btn.dataset.hours) === value);
+  });
 }
 
 function updateBpClassification() {
@@ -201,6 +211,13 @@ async function handleMeasureSubmit(e) {
       const glucose_type = document.getElementById("measure-glucose-type").value;
       const value_mg_dl = Number(document.getElementById("measure-glucose-value").value);
       if (!value_mg_dl) throw new Error("Ingresa un valor de glucosa.");
+      const hours_post =
+        glucose_type === "post_comida"
+          ? Number(document.getElementById("measure-hours-post").value)
+          : null;
+      if (glucose_type === "post_comida" && hours_post !== 1 && hours_post !== 2) {
+        throw new Error("Selecciona 1 hora o 2 horas post-comida.");
+      }
       await saveGlucose({
         id,
         recorded_at,
@@ -210,10 +227,7 @@ async function handleMeasureSubmit(e) {
           glucose_type === "pre_comida" || glucose_type === "post_comida"
             ? document.getElementById("measure-meal").value
             : null,
-        hours_post:
-          glucose_type === "post_comida"
-            ? Number(document.getElementById("measure-hours-post").value)
-            : null,
+        hours_post,
         notes,
       });
     } else {
@@ -260,6 +274,10 @@ function bindUi() {
   document.getElementById("measure-form").addEventListener("submit", handleMeasureSubmit);
   document.getElementById("measure-glucose-type").addEventListener("change", (e) => {
     syncGlucoseFormFields(e.target.value);
+  });
+
+  document.querySelectorAll(".hours-segment").forEach((btn) => {
+    btn.addEventListener("click", () => setHoursPost(Number(btn.dataset.hours)));
   });
   document.getElementById("measure-systolic").addEventListener("input", updateBpClassification);
   document.getElementById("measure-diastolic").addEventListener("input", updateBpClassification);

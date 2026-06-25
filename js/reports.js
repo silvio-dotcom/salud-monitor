@@ -95,7 +95,7 @@ export async function generateMedicalPdf({ profile, glucose, blood_pressure }) {
 
 function sectionHeader(doc, title, margin, y) {
   doc.setFontSize(12);
-  doc.setTextColor(13, 148, 136);
+  doc.setTextColor(168, 85, 247);
   doc.text(title, margin, y);
   doc.setTextColor(0);
   return y + 7;

@@ -65,7 +65,7 @@ export function glucoseTypeLabel(reading) {
   }
   if (reading.glucose_type === "post_comida" && reading.meal) {
     const meal = MEALS[reading.meal] || reading.meal;
-    const hrs = reading.hours_post ? ` (${reading.hours_post}h)` : "";
+    const hrs = reading.hours_post === 2 ? " (2h)" : " (1h)";
     return `Post-Comida (${meal})${hrs}`;
   }
   return base;

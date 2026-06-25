@@ -4,9 +4,9 @@ import { glucoseTypeLabel, glucoseGoal } from "./config.js";
 let chartInstance = null;
 
 const GLUCOSE_COLORS = {
-  ayunas: "#0d9488",
-  pre_comida: "#6366f1",
-  post_comida: "#f59e0b",
+  ayunas: "#cc7aff",
+  pre_comida: "#a855f7",
+  post_comida: "#7c3aed",
 };
 
 const BP_COLORS = {

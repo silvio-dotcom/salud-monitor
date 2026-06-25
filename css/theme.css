@@ -1,10 +1,10 @@
 /* Salud Monitor — mobile-first health theme */
 :root {
-  --teal-900: #0f766e;
-  --teal-700: #0d9488;
-  --teal-500: #14b8a6;
-  --teal-100: #ccfbf1;
-  --teal-50: #f0fdfa;
+  --accent: #cc7aff;
+  --accent-dark: #a855f7;
+  --accent-deep: #7c3aed;
+  --accent-light: #e9d5ff;
+  --accent-pale: #faf5ff;
   --slate-900: #0f172a;
   --slate-700: #334155;
   --slate-500: #64748b;
@@ -46,7 +46,7 @@ body {
   font-size: 1rem;
   line-height: 1.5;
   color: var(--slate-900);
-  background: linear-gradient(180deg, var(--teal-50) 0%, var(--slate-100) 40%);
+  background: linear-gradient(180deg, var(--accent-pale) 0%, var(--slate-100) 40%);
   min-height: 100dvh;
   min-height: -webkit-fill-available;
   -webkit-font-smoothing: antialiased;
@@ -83,7 +83,7 @@ body {
   width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--slate-200);
   border-radius: var(--radius-sm); font-size: 1rem; margin-bottom: 1rem;
 }
-.auth-message { font-size: 0.875rem; color: var(--teal-700); min-height: 1.25rem; }
+.auth-message { font-size: 0.875rem; color: var(--accent-dark); min-height: 1.25rem; }
 .auth-disclaimer { font-size: 0.75rem; color: var(--slate-500); text-align: center; margin: 1rem 0 0; }
 
 /* App shell */
@@ -111,7 +111,7 @@ body {
 .brand-icon {
   display: flex; align-items: center; justify-content: center;
   width: 44px; height: 44px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--teal-700), var(--teal-500));
+  background: linear-gradient(135deg, var(--accent-dark), var(--accent));
   color: white; font-size: 1.25rem;
 }
 .brand-icon.sm { width: 36px; height: 36px; font-size: 1rem; }
@@ -143,7 +143,7 @@ body {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
-.tab-btn.active { color: var(--teal-700); border-bottom-color: var(--teal-700); }
+.tab-btn.active { color: var(--accent-dark); border-bottom-color: var(--accent-dark); }
 
 .main-content { padding: 1rem; display: flex; flex-direction: column; gap: 1rem; -webkit-overflow-scrolling: touch; }
 
@@ -167,7 +167,7 @@ body {
 .summary-card {
   background: var(--white); border-radius: var(--radius);
   padding: 1rem; box-shadow: var(--shadow);
-  border-left: 4px solid var(--teal-500);
+  border-left: 4px solid var(--accent);
 }
 .summary-card.in-range { border-left-color: var(--success); }
 .summary-card.out-range { border-left-color: var(--danger); }
@@ -184,7 +184,7 @@ body {
   padding: 0.65rem 0.85rem; border-radius: var(--radius-sm);
   font-size: 0.875rem; line-height: 1.45;
 }
-.insight-item.info { background: var(--teal-50); color: var(--teal-900); }
+.insight-item.info { background: var(--accent-pale); color: var(--accent-deep); }
 .insight-item.warn { background: var(--warning-bg); color: #92400e; }
 .insight-item.good { background: var(--success-bg); color: #065f46; }
 
@@ -203,7 +203,7 @@ body {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
-.filter-btn.active { background: var(--teal-700); color: white; border-color: var(--teal-700); }
+.filter-btn.active { background: var(--accent-dark); color: white; border-color: var(--accent-dark); }
 
 /* History */
 .header-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
@@ -252,9 +252,9 @@ body {
   touch-action: manipulation;
 }
 .btn:active { transform: scale(0.98); }
-.btn-primary { background: var(--teal-700); color: white; }
-.btn-primary:hover { background: var(--teal-900); }
-.btn-outline { background: white; color: var(--teal-700); border: 1px solid var(--teal-700); }
+.btn-primary { background: var(--accent-dark); color: white; }
+.btn-primary:hover { background: var(--accent-deep); }
+.btn-outline { background: white; color: var(--accent-dark); border: 1px solid var(--accent-dark); }
 .btn-ghost { background: transparent; color: var(--slate-500); }
 .btn-danger-outline { background: white; color: var(--danger); border: 1px solid var(--danger); }
 .btn-block { width: 100%; }
@@ -267,7 +267,7 @@ body {
   bottom: calc(1.25rem + var(--safe-bottom));
   right: max(1.25rem, calc(50% - var(--max-w) / 2 + 1.25rem));
   width: var(--fab-size); height: var(--fab-size); border-radius: 50%;
-  background: linear-gradient(135deg, var(--teal-700), var(--teal-500));
+  background: linear-gradient(135deg, var(--accent-dark), var(--accent));
   color: white; border: none; font-size: 1.75rem; line-height: 1;
   box-shadow: var(--shadow-lg); cursor: pointer; z-index: 60;
   -webkit-tap-highlight-color: transparent;
@@ -309,6 +309,40 @@ body {
 .modal-actions { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1.25rem; }
 .goals-fieldset { border: 1px solid var(--slate-200); border-radius: var(--radius-sm); padding: 0.75rem; margin-top: 0.75rem; }
 .goals-fieldset legend { font-size: 0.8rem; font-weight: 600; padding: 0 0.25rem; }
+
+/* Segmented control — 1h / 2h post-comida (iOS friendly) */
+.segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+.segment {
+  min-height: 44px;
+  padding: 0.65rem 0.5rem;
+  border: 2px solid var(--slate-200);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--slate-700);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+.segment.active {
+  background: var(--accent);
+  color: var(--white);
+  border-color: var(--accent-dark);
+  box-shadow: 0 4px 14px rgba(204, 122, 255, 0.35);
+}
+.field-hint {
+  font-size: 0.75rem;
+  color: var(--slate-500);
+  margin: 0.25rem 0 0;
+}
 
 .bp-classification {
   margin: 0.5rem 0 0; padding: 0.5rem 0.75rem; border-radius: var(--radius-sm);

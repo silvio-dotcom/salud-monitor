@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1" />
-  <meta name="theme-color" content="#0d9488" />
+  <meta name="theme-color" content="#cc7aff" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Salud Monitor" />
@@ -130,11 +130,13 @@
         </div>
 
         <div id="hours-post-fields" class="hidden">
-          <label for="measure-hours-post">Horas después de comer</label>
-          <select id="measure-hours-post" name="hours_post">
-            <option value="1">1 hora</option>
-            <option value="2">2 horas</option>
-          </select>
+          <label>¿Cuánto tiempo después de comer?</label>
+          <p class="field-hint">Selecciona 1 hora o 2 horas post-comida</p>
+          <div class="segmented" role="group" aria-label="Horas post-comida">
+            <button type="button" class="segment hours-segment active" data-hours="1">1 hora</button>
+            <button type="button" class="segment hours-segment" data-hours="2">2 horas</button>
+          </div>
+          <input type="hidden" id="measure-hours-post" name="hours_post" value="1" />
         </div>
 
         <label for="measure-glucose-value">Glucosa (mg/dL)</label>
