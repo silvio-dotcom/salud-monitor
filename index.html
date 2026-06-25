@@ -10,7 +10,7 @@
   <meta name="format-detection" content="telephone=no" />
   <meta name="description" content="Control personal de glucosa y presión arterial" />
   <title>Salud Monitor</title>
-  <link rel="manifest" href="/manifest.json" />
+  <link rel="manifest" href="./manifest.json" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
@@ -21,10 +21,10 @@
     <header class="topbar">
       <div class="topbar-inner">
         <div class="brand-block">
-          <img src="./images/boo-mascot.png" alt="" class="brand-avatar" width="36" height="36" />
+          <img src="./images/boo-mascot.png" alt="Mascota Salud Monitor" class="brand-avatar" width="36" height="36" />
           <div>
             <h1 id="patient-name" class="patient-name">Salud Monitor</h1>
-            <p class="topbar-tag">Monitoreo y Salud</p>
+            <p id="gestational-week" class="topbar-tag">Semana 33 de embarazo</p>
           </div>
         </div>
         <div class="topbar-actions">
@@ -79,7 +79,7 @@
         <h2>Gestión de Datos</h2>
         <div class="data-actions">
           <button type="button" id="export-pdf-btn" class="btn btn-outline">Exportar PDF</button>
-          <button type="button" id="load-repo-backup-btn" class="btn btn-outline">Cargar backup GitHub</button>
+          <button type="button" id="load-repo-backup-btn" class="btn btn-outline">Restaurar datos del servidor</button>
         </div>
       </section>
     </main>

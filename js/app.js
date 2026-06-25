@@ -31,7 +31,7 @@ import { buildSaveCelebration } from "./cat-messages.js";
 
 const state = {
   tab: "glucose",
-  chartRange: "90",
+  chartRange: "7",
   profile: {
     patient_name: "Salud Monitor",
     gestational_week: DEFAULT_GESTATIONAL_WEEK,
@@ -70,6 +70,8 @@ async function refreshData() {
   state.glucose = glucose;
   state.bloodPressure = bloodPressure;
   document.getElementById("patient-name").textContent = profile.patient_name;
+  const week = profile.gestational_week ?? DEFAULT_GESTATIONAL_WEEK;
+  document.getElementById("gestational-week").textContent = `Semana ${week} de embarazo`;
   render();
 }
 
@@ -389,9 +391,13 @@ function bindUi() {
   });
 
   document.getElementById("load-repo-backup-btn")?.addEventListener("click", async () => {
-    const loaded = await tryLoadRepoBackup({ forceMerge: true });
-    toast(loaded ? "Backup del repositorio cargado" : "No hay data/backup.json en el sitio");
-    if (loaded) await refreshData();
+    const result = await tryLoadRepoBackup({ forceMerge: true });
+    if (result.ok) {
+      toast(`Restaurados: ${result.glucose} glucosa, ${result.bp} presión`);
+      await refreshData();
+    } else {
+      toast("No hay datos en el servidor o no se pudo conectar");
+    }
   });
 
   document.getElementById("settings-btn").addEventListener("click", () => {
@@ -432,7 +438,7 @@ function bindUi() {
 async function bootstrap() {
   bindUi();
   const restored = await tryLoadRepoBackup({ onlyIfEmpty: true });
-  if (restored) toast("Datos cargados desde data/backup.json");
+  if (restored.ok) toast(`Datos cargados: ${restored.glucose} glucosa, ${restored.bp} presión`);
   else if (import.meta.env.DEV) await maybeSeedDemo();
   await refreshData();
 }

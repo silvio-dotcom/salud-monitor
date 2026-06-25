@@ -63,6 +63,13 @@ export function renderGlucoseSummary(container, readings, goals) {
     .join("");
 }
 
+function bpSummaryRangeClass(className) {
+  if (className === "bp-normal") return "in-range";
+  if (className === "bp-elevated") return "warn-range";
+  if (className === "bp-high") return "out-range";
+  return "neutral";
+}
+
 export function renderBpSummary(container, readings) {
   const latest = readings[0];
   const classification = latest
@@ -76,7 +83,7 @@ export function renderBpSummary(container, readings) {
       value: latest ? `${latest.systolic}/${latest.diastolic}` : "—",
       unit: latest ? "mmHg" : "",
       sub: classification?.label || "",
-      rangeClass: classification?.className?.replace("bp-", "") || "neutral",
+      rangeClass: bpSummaryRangeClass(classification?.className),
     },
     {
       label: "Pulso",
@@ -87,19 +94,19 @@ export function renderBpSummary(container, readings) {
       rangeClass: "neutral",
     },
     {
-      label: "Clasificación AHA",
-      meta: latest ? "American Heart Association" : "",
+      label: "Clasificación",
+      meta: latest ? "Según tus metas (≤121/81 normal)" : "",
       value: classification?.label || "—",
       unit: "",
       sub: "",
-      rangeClass: classification?.className?.replace("bp-", "") || "neutral",
+      rangeClass: bpSummaryRangeClass(classification?.className),
     },
   ];
 
   container.innerHTML = cards
     .map(
       (c) => `
-      <article class="summary-card ${c.rangeClass === "normal" ? "in-range" : c.rangeClass === "high" ? "out-range" : "neutral"}">
+      <article class="summary-card ${c.rangeClass}">
         <div class="summary-label">${c.label}</div>
         <div class="summary-value">${c.value}${c.unit ? `<span class="summary-unit"> ${c.unit}</span>` : ""}</div>
         <div class="summary-meta">${c.meta || c.sub}</div>

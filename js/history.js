@@ -39,9 +39,15 @@ function glucoseRow(r, goals, onEdit, onDelete) {
     </li>`;
 }
 
+function bpRangeClass(className) {
+  if (className === "bp-normal") return "in-range";
+  if (className === "bp-elevated") return "warn-range";
+  return "out-range";
+}
+
 function bpRow(r, onEdit, onDelete) {
   const c = classifyBloodPressure(r.systolic, r.diastolic);
-  const rangeClass = c.className === "bp-normal" ? "in-range" : "out-range";
+  const rangeClass = bpRangeClass(c.className);
   const arm = r.arm ? ` · ${ARMS[r.arm] || r.arm}` : "";
   const pulse = r.pulse ? ` · ${r.pulse} lpm` : "";
   return `

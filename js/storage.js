@@ -131,13 +131,20 @@ export async function resetAllData() {
 }
 
 /** Load optional backup committed in the repo (public/data/backup.json). */
+function backupCounts(payload) {
+  const glucose = payload.glucose || payload.glucoseReadings || [];
+  const bp = payload.blood_pressure || payload.bloodPressure || [];
+  return { glucose: glucose.length, bp: bp.length };
+}
+
 export async function tryLoadRepoBackup({ onlyIfEmpty = false, forceMerge = false } = {}) {
   try {
     const local = readLocal();
     const base = import.meta.env.BASE_URL || "/";
     const res = await fetch(`${base}data/backup.json`, { cache: "no-cache" });
-    if (!res.ok) return false;
+    if (!res.ok) return { ok: false, glucose: 0, bp: 0 };
     const payload = await res.json();
+    const counts = backupCounts(payload);
 
     const backupGlucose = payload.glucose || payload.glucoseReadings || [];
     const backupBp = payload.blood_pressure || payload.bloodPressure || [];
@@ -147,13 +154,13 @@ export async function tryLoadRepoBackup({ onlyIfEmpty = false, forceMerge = fals
 
     if (forceMerge) {
       await importAllData(payload, { merge: true });
-      return true;
+      return { ok: true, ...counts };
     }
 
     if (onlyIfEmpty) {
       if (fullyEmpty) {
         await importAllData(payload, { merge: false });
-        return true;
+        return { ok: true, ...counts };
       }
 
       const partial = {};
@@ -171,15 +178,15 @@ export async function tryLoadRepoBackup({ onlyIfEmpty = false, forceMerge = fals
 
       if (changed) {
         await importAllData(partial, { merge: true });
-        return true;
+        return { ok: true, ...counts };
       }
-      return false;
+      return { ok: false, glucose: 0, bp: 0 };
     }
 
     await importAllData(payload, { merge: true });
-    return true;
+    return { ok: true, ...counts };
   } catch {
-    return false;
+    return { ok: false, glucose: 0, bp: 0 };
   }
 }
 

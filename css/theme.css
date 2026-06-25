@@ -177,6 +177,7 @@ body {
   border-left: 4px solid var(--accent);
 }
 .summary-card.in-range { border-left-color: var(--success); }
+.summary-card.warn-range { border-left-color: var(--warning); }
 .summary-card.out-range { border-left-color: var(--danger); }
 .summary-card.neutral { border-left-color: var(--slate-200); }
 
@@ -220,6 +221,7 @@ body {
 .history-type { font-weight: 600; font-size: 0.9rem; }
 .history-value { font-size: 1.125rem; font-weight: 700; white-space: nowrap; }
 .history-value.in-range { color: var(--success); }
+.history-value.warn-range { color: var(--warning); }
 .history-value.out-range { color: var(--danger); }
 .history-actions { display: flex; gap: 0.25rem; }
 .history-actions button {
