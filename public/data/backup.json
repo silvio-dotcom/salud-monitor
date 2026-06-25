@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exported_at": "2026-06-25T22:03:34.889577Z",
+  "exported_at": "2026-06-25T22:28:42.221Z",
   "profile": {
     "patient_name": "Andy Grijalva Cruz",
     "gestational_week": 33,
@@ -679,5 +679,348 @@
       "notes": "Importado desde PDF"
     }
   ],
-  "blood_pressure": []
+  "blood_pressure": [
+    {
+      "id": "c759f52d-8033-4254-8cd1-e2cffdbf761f",
+      "recorded_at": "2026-06-24T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "d8f11a67-4f93-406c-863e-8882183bec70",
+      "recorded_at": "2026-06-23T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "8e8ea69e-d78b-4467-957c-0df6dad01f4e",
+      "recorded_at": "2026-06-22T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "638b5f80-63a8-47e7-840f-2f0e43f7f7e4",
+      "recorded_at": "2026-06-15T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "6636cdef-7624-46c0-b3e6-e0641ddc7795",
+      "recorded_at": "2026-06-12T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 80,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "c092dba5-348d-48d3-8f95-9c59375e938b",
+      "recorded_at": "2026-06-10T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "841079c7-106f-451f-a83d-f894b6c008bf",
+      "recorded_at": "2026-06-07T10:00:00.000-04:00",
+      "systolic": 120,
+      "diastolic": 80,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "f3b5e47e-17b1-49ad-b36a-ead8fded6aec",
+      "recorded_at": "2026-06-06T10:00:00.000-04:00",
+      "systolic": 120,
+      "diastolic": 80,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "524a8a96-b7c6-4249-8bd1-d6690a44bdbe",
+      "recorded_at": "2026-06-04T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "cef712bc-8775-400e-8ef2-fa276f12bbeb",
+      "recorded_at": "2026-05-31T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "b8e726b3-d0ec-4a4b-b0bb-a9f27a9854ed",
+      "recorded_at": "2026-05-27T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "a02e0025-1454-4def-a1b5-aea9dc84419f",
+      "recorded_at": "2026-05-25T10:00:00.000-04:00",
+      "systolic": 100,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "ee6a3446-abae-4131-a918-d8de7cb27439",
+      "recorded_at": "2026-05-16T10:00:00.000-04:00",
+      "systolic": 120,
+      "diastolic": 80,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "8128ed19-52d9-42ab-af2f-68afdad37c5b",
+      "recorded_at": "2026-05-15T10:00:00.000-04:00",
+      "systolic": 100,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "8cef2f26-73e9-4438-9ce5-b5485870010f",
+      "recorded_at": "2026-05-14T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "79823d07-316d-44ec-b9ce-1504dc13c068",
+      "recorded_at": "2026-05-11T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "d7918878-61db-44ca-92cf-8d5319cd62a3",
+      "recorded_at": "2026-05-07T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "2956472b-591b-4911-8026-a5f3ed6182e4",
+      "recorded_at": "2026-05-03T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "a8a5d3f9-fdaa-4019-a3ca-fc869122db15",
+      "recorded_at": "2026-05-01T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "1a3e25c7-5a4d-4c40-bf0b-71a1ace1e34b",
+      "recorded_at": "2026-04-25T10:00:00.000-04:00",
+      "systolic": 111,
+      "diastolic": 72,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "39db6fa4-4b24-4834-a8a9-7073f89e3184",
+      "recorded_at": "2026-04-25T10:00:00.000-04:00",
+      "systolic": 114,
+      "diastolic": 79,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "ec6c184e-33e2-4232-b308-8452eaacefe6",
+      "recorded_at": "2026-04-22T10:00:00.000-04:00",
+      "systolic": 120,
+      "diastolic": 80,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "588254c6-1245-469c-ba0a-89c0676e7160",
+      "recorded_at": "2026-04-20T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "4c66c3d7-9ed2-42d4-bf15-c2c30ffd30a8",
+      "recorded_at": "2026-04-16T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 80,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "72354086-71ac-458a-9785-cef1d07ecf50",
+      "recorded_at": "2026-04-15T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "89ec3deb-151c-43db-8ac3-adc84f9513b7",
+      "recorded_at": "2026-04-11T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "916b3a78-05e6-4b98-b349-01510b22833b",
+      "recorded_at": "2026-04-09T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "6b60aa29-5873-4652-b7a0-7f60c7b4c83b",
+      "recorded_at": "2026-04-07T10:00:00.000-04:00",
+      "systolic": 120,
+      "diastolic": 80,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "5376b3a3-63e8-4871-92f6-00d71c8ef9c2",
+      "recorded_at": "2026-04-04T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "0bd28063-fa19-4403-a680-26a39c88bf24",
+      "recorded_at": "2026-04-02T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "e50fd345-3eac-4cce-bbe1-43a005395a95",
+      "recorded_at": "2026-04-01T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "d9b6ac73-e290-465c-9bcc-a5338e4fe84c",
+      "recorded_at": "2026-03-29T10:00:00.000-04:00",
+      "systolic": 120,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "2c4892ad-2419-4269-9bb7-18dc89aea56d",
+      "recorded_at": "2026-03-26T10:00:00.000-04:00",
+      "systolic": 120,
+      "diastolic": 80,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "b8d4edc1-f18f-43ec-bc84-989175cfea7b",
+      "recorded_at": "2026-03-25T10:00:00.000-04:00",
+      "systolic": 120,
+      "diastolic": 80,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "1f989b3d-cc8e-4f12-b6e7-c13953c35f4b",
+      "recorded_at": "2026-03-24T10:00:00.000-04:00",
+      "systolic": 110,
+      "diastolic": 70,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "7701ec4a-d108-45ac-afdb-b10a9ce869ad",
+      "recorded_at": "2026-03-22T10:00:00.000-04:00",
+      "systolic": 120,
+      "diastolic": 80,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "f0d11079-a222-46c3-aa7e-3fdb68343825",
+      "recorded_at": "2026-03-19T10:00:00.000-04:00",
+      "systolic": 120,
+      "diastolic": 80,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "e8ef75c6-3e40-41a1-969b-e9b127010404",
+      "recorded_at": "2026-03-15T10:00:00.000-04:00",
+      "systolic": 120,
+      "diastolic": 80,
+      "pulse": null,
+      "arm": "izquierdo",
+      "notes": "Importado desde PDF"
+    }
+  ]
 }
