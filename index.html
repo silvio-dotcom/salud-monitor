@@ -86,16 +86,9 @@
       <section class="card data-card">
         <h2>Gestión de Datos</h2>
         <div class="data-actions">
-          <button type="button" id="export-json-btn" class="btn btn-outline">Exportar JSON</button>
           <button type="button" id="export-pdf-btn" class="btn btn-outline">Exportar PDF</button>
-          <label class="btn btn-outline file-label">
-            Importar JSON
-            <input type="file" id="import-json-input" accept=".json,application/json" hidden />
-          </label>
           <button type="button" id="load-repo-backup-btn" class="btn btn-outline">Cargar backup GitHub</button>
-          <button type="button" id="reset-data-btn" class="btn btn-danger-outline">Reiniciar Historial</button>
         </div>
-        <p class="data-hint">Para respaldar en GitHub: exporta JSON, guárdalo como <code>public/data/backup.json</code> y haz push.</p>
       </section>
     </main>
 
@@ -105,6 +98,7 @@
   <!-- Modal: Nueva lectura -->
   <dialog id="measure-modal" class="modal measure-modal">
     <form id="measure-form" class="reading-form">
+      <div class="reading-scroll">
       <header class="reading-header">
         <h2 id="measure-modal-title">Nueva Lectura <span class="reading-deco" aria-hidden="true">🐾</span></h2>
       </header>
@@ -194,10 +188,11 @@
       </div>
 
       <textarea id="measure-notes" name="notes" class="notes-field" rows="3" placeholder="¿Algo especial hoy? 🐾"></textarea>
+      </div>
 
       <footer class="reading-footer">
         <button type="button" class="btn-text" data-close>Cerrar</button>
-        <button type="submit" class="btn-save">Guardar</button>
+        <button type="submit" id="save-measure-btn" class="btn-save">Guardar</button>
       </footer>
     </form>
   </dialog>

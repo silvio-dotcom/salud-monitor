@@ -395,8 +395,18 @@ body {
   backdrop-filter: blur(4px);
 }
 .reading-form {
-  min-height: 100%;
-  padding: calc(1rem + var(--safe-top)) 1rem calc(1rem + var(--safe-bottom));
+  height: 100%;
+  max-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  gap: 0;
+}
+.reading-scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: calc(1rem + var(--safe-top)) 1rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -586,12 +596,16 @@ body {
 .notes-field::placeholder { color: #9aa3b2; }
 
 .reading-footer {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-top: auto;
-  padding-top: 0.5rem;
+  padding: 0.85rem 1rem calc(0.85rem + var(--safe-bottom));
+  background: #eef0f4;
+  border-top: 1px solid #dfe3ea;
+  box-shadow: 0 -6px 20px rgba(15, 23, 42, 0.06);
+  z-index: 2;
 }
 .btn-text {
   border: none;
@@ -608,13 +622,12 @@ body {
 }
 .btn-save {
   flex: 1;
-  max-width: 220px;
   border: none;
   border-radius: 999px;
   background: var(--accent);
   color: var(--white);
   font-family: inherit;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -636,5 +649,8 @@ body {
     border-radius: 20px;
     overflow: hidden;
   }
-  .reading-form { min-height: auto; }
+  .reading-form {
+    min-height: auto;
+    max-height: calc(100dvh - 2rem - var(--safe-top) - var(--safe-bottom));
+  }
 }

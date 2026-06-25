@@ -1,6 +1,7 @@
 import Chart from "chart.js/auto";
-import { glucoseTypeLabel, glucoseGoal } from "./config.js";
+import { glucoseTypeLabel, isGlucoseInRange } from "./config.js";
 
+const OUT_OF_RANGE_COLOR = "#dc2626";
 let chartInstance = null;
 
 const GLUCOSE_COLORS = {
@@ -37,18 +38,29 @@ export function renderGlucoseChart(canvas, readings, goals, rangeDays) {
   const types = ["ayunas", "pre_comida", "post_comida"];
   const dateIndex = buildDateIndex(filtered);
 
-  const datasets = types.map((type) => ({
-    label: type === "ayunas" ? "Ayunas" : type === "pre_comida" ? "Pre-Comida" : "Post-Comida",
-    data: filtered
-      .filter((r) => r.glucose_type === type)
-      .map((r) => ({ x: dateIndex.get(r.recorded_at.slice(0, 10)), y: r.value_mg_dl })),
-    borderColor: GLUCOSE_COLORS[type],
-    backgroundColor: GLUCOSE_COLORS[type],
-    tension: 0.25,
-    pointRadius: 4,
-    showLine: true,
-  }));
-
+  const datasets = types.flatMap((type) => {
+    const typeReadings = filtered.filter((r) => r.glucose_type === type);
+    if (!typeReadings.length) return [];
+    const label = type === "ayunas" ? "Ayunas" : type === "pre_comida" ? "Pre-Comida" : "Post-Comida";
+    const pointColors = typeReadings.map((r) =>
+      isGlucoseInRange(r, goals) ? GLUCOSE_COLORS[type] : OUT_OF_RANGE_COLOR
+    );
+    return [{
+      label,
+      data: typeReadings.map((r) => ({
+        x: dateIndex.get(r.recorded_at.slice(0, 10)),
+        y: r.value_mg_dl,
+      })),
+      borderColor: GLUCOSE_COLORS[type],
+      backgroundColor: GLUCOSE_COLORS[type],
+      pointBackgroundColor: pointColors,
+      pointBorderColor: pointColors,
+      pointRadius: 5,
+      pointHoverRadius: 7,
+      tension: 0.25,
+      showLine: true,
+    }];
+  });
   const refLines = [
     { y: goals.fasting, label: `Ayunas ≤ ${goals.fasting}` },
     { y: goals.pre_meal, label: `Pre ≤ ${goals.pre_meal}` },
@@ -76,8 +88,8 @@ export function renderGlucoseChart(canvas, readings, goals, rangeDays) {
   renderLegend(document.getElementById("chart-legend"), [
     ...types.map((t) => ({ color: GLUCOSE_COLORS[t], label: glucoseTypeLabel({ glucose_type: t }) })),
     { color: "rgba(100,116,139,0.45)", label: "Metas" },
+    { color: OUT_OF_RANGE_COLOR, label: "Fuera de rango" },
   ]);
-
   chartInstance = new Chart(canvas, {
     type: "line",
     data: { datasets: datasets.map((ds) => ({ ...ds, parsing: false })) },
@@ -192,5 +204,3 @@ function buildDateIndex(readings) {
   const dates = [...new Set(readings.map((r) => r.recorded_at.slice(0, 10)))].sort();
   return new Map(dates.map((d, i) => [d, i]));
 }
-
-export { glucoseGoal };

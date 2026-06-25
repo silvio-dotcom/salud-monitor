@@ -15,8 +15,6 @@ import {
   listBloodPressure,
   saveBloodPressure,
   deleteBloodPressure,
-  importAllData,
-  resetAllData,
   tryLoadRepoBackup,
 } from "./storage.js";
 import { renderGlucoseSummary, renderBpSummary } from "./dashboard.js";
@@ -28,8 +26,7 @@ import {
   bindHistoryActions,
   updateHistoryFilterOptions,
 } from "./history.js";
-import { downloadJsonExport, downloadPdfReport } from "./reports.js";
-import { parseImportFile, validateImportPayload } from "./import.js";
+import { downloadPdfReport } from "./reports.js";
 
 const state = {
   tab: "glucose",
@@ -359,40 +356,9 @@ function bindUi() {
     },
   });
 
-  document.getElementById("export-json-btn").addEventListener("click", async () => {
-    await downloadJsonExport();
-    toast("JSON exportado");
-  });
-
   document.getElementById("export-pdf-btn").addEventListener("click", async () => {
     await downloadPdfReport();
     toast("PDF generado");
-  });
-
-  document.getElementById("import-json-input").addEventListener("change", async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    try {
-      const text = await file.text();
-      const payload = parseImportFile(text);
-      const errors = validateImportPayload(payload);
-      if (errors.length) throw new Error(errors[0]);
-      const merge = confirm("¿Combinar con datos existentes? Cancelar = reemplazar todo.");
-      await importAllData(payload, { merge });
-      toast(`Importados ${payload.glucose.length} glucosa, ${payload.blood_pressure.length} presión`);
-      await refreshData();
-    } catch (err) {
-      toast(err.message || "Error al importar");
-    }
-    e.target.value = "";
-  });
-
-  document.getElementById("reset-data-btn").addEventListener("click", async () => {
-    if (!confirm("¿Eliminar TODO el historial? Esta acción no se puede deshacer.")) return;
-    if (!confirm("Confirma de nuevo: se borrarán todos los registros.")) return;
-    await resetAllData();
-    toast("Historial reiniciado");
-    await refreshData();
   });
 
   document.getElementById("load-repo-backup-btn")?.addEventListener("click", async () => {
