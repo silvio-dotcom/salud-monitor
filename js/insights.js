@@ -146,24 +146,25 @@ export function renderInsights(container, items, { aiBlock = "" } = {}) {
   container.innerHTML = rulesHtml + aiBlock;
 }
 
-export function renderAiInsightsBlock({ meta, paragraph, loading, error }) {
+export function renderAiInsightsBlock({ meta, paragraph, loading, error, standalone = false }) {
+  const wrapClass = standalone ? "ai-insights-standalone" : "ai-insights-panel";
   if (loading) {
     return `
-      <div class="ai-insights-panel">
-        <div class="ai-insights-header">✨ ${meta || "Insight IA"}</div>
-        <div class="ai-insights-loading">Analizando tus mediciones…</div>
+      <div class="${wrapClass}">
+        <div class="ai-insights-header">✨ ${meta || "Análisis IA"}</div>
+        <div class="ai-skeleton"><span></span><span></span><span></span></div>
       </div>`;
   }
   if (error) {
     return `
-      <div class="ai-insights-panel">
-        <div class="ai-insights-header">✨ ${meta || "Insight IA"}</div>
+      <div class="${wrapClass}">
+        <div class="ai-insights-header">✨ ${meta || "Análisis IA"}</div>
         <p class="ai-insights-text warn">${error}</p>
       </div>`;
   }
   if (!paragraph) return "";
   return `
-    <div class="ai-insights-panel">
+    <div class="${wrapClass}">
       <div class="ai-insights-header">✨ ${meta}</div>
       <p class="ai-insights-text">${paragraph}</p>
     </div>`;

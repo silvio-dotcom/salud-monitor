@@ -20,7 +20,7 @@ import {
 } from "./storage.js";
 import { renderGlucoseSummary, renderBpSummary } from "./dashboard.js";
 import { renderGlucoseChart, renderBpChart } from "./charts.js";
-import { computeGlucoseInsights, computeBpInsights, renderInsights, renderAiInsightsBlock } from "./insights.js";
+import { renderAiInsightsBlock } from "./insights.js";
 import { loadAiInsights, formatAiInsightMeta, clearAiInsightsCache } from "./ai-insights.js";
 import {
   renderHistory,
@@ -74,7 +74,7 @@ async function refreshData() {
   state.bloodPressure = bloodPressure;
   document.getElementById("patient-name").textContent = profile.patient_name;
   const week = profile.gestational_week ?? DEFAULT_GESTATIONAL_WEEK;
-  document.getElementById("gestational-week").textContent = `Semana ${week} de embarazo`;
+  document.getElementById("gestational-week").textContent = `Semana ${week}`;
   render();
   refreshAiInsights();
 }
@@ -82,10 +82,6 @@ async function refreshData() {
 function renderInsightsPanel() {
   const insightsEl = document.getElementById("insights-content");
   const week = state.profile.gestational_week ?? DEFAULT_GESTATIONAL_WEEK;
-  const ruleItems =
-    state.tab === "glucose"
-      ? computeGlucoseInsights(state.glucose, state.profile.goals)
-      : computeBpInsights(state.bloodPressure);
 
   const meta = state.aiInsights.result
     ? formatAiInsightMeta(state.aiInsights.result, week)
@@ -96,9 +92,10 @@ function renderInsightsPanel() {
     paragraph: state.aiInsights.result?.paragraph,
     loading: state.aiInsights.loading,
     error: null,
+    standalone: true,
   });
 
-  renderInsights(insightsEl, ruleItems, { aiBlock });
+  insightsEl.innerHTML = aiBlock || `<p class="ai-insights-loading">Preparando análisis…</p>`;
 }
 
 async function refreshAiInsights({ force = false } = {}) {
@@ -132,7 +129,7 @@ function render() {
   const typeFilter = document.getElementById("history-filter").value;
 
   if (state.tab === "glucose") {
-    chartTitle.textContent = "Tendencia de Glucosa";
+    chartTitle.textContent = "Tendencia de glucosa";
     renderGlucoseSummary(summaryEl, state.glucose, state.profile.goals);
     renderGlucoseChart(canvas, state.glucose, state.profile.goals, state.chartRange);
     renderInsightsPanel();
@@ -142,7 +139,7 @@ function render() {
       goals: state.profile.goals,
     });
   } else {
-    chartTitle.textContent = "Tendencia de Presión Arterial";
+    chartTitle.textContent = "Tendencia de presión";
     renderBpSummary(summaryEl, state.bloodPressure);
     renderBpChart(canvas, state.bloodPressure, state.chartRange);
     renderInsightsPanel();
@@ -377,6 +374,20 @@ function bindUi() {
 
   document.getElementById("fab-new").addEventListener("click", () => {
     openMeasureModal({ kind: state.tab === "glucose" ? "glucose" : "bp" });
+  });
+
+  document.getElementById("history-empty")?.addEventListener("click", (e) => {
+    if (e.target.closest("[data-open-measure]")) {
+      openMeasureModal({ kind: state.tab === "glucose" ? "glucose" : "bp" });
+    }
+  });
+
+  const disclaimer = document.getElementById("disclaimer-bar");
+  if (disclaimer && localStorage.getItem("salud-disclaimer-open") === "0") {
+    disclaimer.removeAttribute("open");
+  }
+  disclaimer?.addEventListener("toggle", () => {
+    localStorage.setItem("salud-disclaimer-open", disclaimer.open ? "1" : "0");
   });
 
   document.getElementById("measure-form").addEventListener("submit", handleMeasureSubmit);

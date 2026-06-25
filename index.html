@@ -21,10 +21,12 @@
     <header class="topbar">
       <div class="topbar-inner">
         <div class="brand-block">
-          <img src="./images/boo-mascot.png" alt="Mascota Salud Monitor" class="brand-avatar" width="36" height="36" />
+          <div class="brand-avatar-wrap">
+            <img src="./images/boo-mascot.png" alt="Mascota Salud Monitor" class="brand-avatar" width="44" height="44" />
+          </div>
           <div>
             <h1 id="patient-name" class="patient-name">Salud Monitor</h1>
-            <p id="gestational-week" class="topbar-tag">Semana 33 de embarazo</p>
+            <span id="gestational-week" class="week-badge">Semana 33</span>
           </div>
         </div>
         <div class="topbar-actions">
@@ -33,9 +35,10 @@
       </div>
     </header>
 
-    <div class="disclaimer-bar" role="note">
-      Seguimiento personal — consulta a tu médico para interpretación clínica.
-    </div>
+    <details class="disclaimer-bar" id="disclaimer-bar">
+      <summary>Aviso</summary>
+      <p>Seguimiento personal — consulta a tu médico para interpretación clínica.</p>
+    </details>
 
     <nav class="tab-nav" aria-label="Tipo de medida">
       <button type="button" class="tab-btn active" data-tab="glucose">Glucosa</button>
@@ -43,7 +46,9 @@
     </nav>
 
     <main class="main-content">
-      <section id="insights-panel" class="card insights-card">
+      <section id="summary-panel" class="summary-panel"></section>
+
+      <section id="insights-panel" class="card insights-card insights-card-soft">
         <div class="card-header">
           <h2>Análisis IA</h2>
           <button type="button" id="refresh-insights" class="btn btn-ghost btn-sm">Actualizar</button>
@@ -51,17 +56,15 @@
         <div id="insights-content" class="insights-content"></div>
       </section>
 
-      <section id="summary-panel" class="summary-grid"></section>
-
       <section class="card chart-card">
-        <div class="card-header">
-          <h2 id="chart-title">Tendencia de Glucosa</h2>
-          <div class="chart-filters" role="group" aria-label="Rango de fechas">
-            <button type="button" class="filter-btn active" data-range="7">7d</button>
-            <button type="button" class="filter-btn" data-range="30">30d</button>
-            <button type="button" class="filter-btn" data-range="90">90d</button>
-            <button type="button" class="filter-btn" data-range="all">Todo</button>
-          </div>
+        <div class="card-header chart-header">
+          <h2 id="chart-title">Tendencia de glucosa</h2>
+        </div>
+        <div class="segmented chart-segmented" role="group" aria-label="Rango de fechas">
+          <button type="button" class="segment filter-btn active" data-range="7">7 días</button>
+          <button type="button" class="segment filter-btn" data-range="30">30 días</button>
+          <button type="button" class="segment filter-btn" data-range="90">90 días</button>
+          <button type="button" class="segment filter-btn" data-range="all">Todo</button>
         </div>
         <div class="chart-legend" id="chart-legend"></div>
         <div class="chart-wrap">
@@ -80,19 +83,26 @@
           </div>
         </div>
         <ul id="history-list" class="history-list"></ul>
-        <p id="history-empty" class="empty-state hidden">No hay registros todavía.</p>
+        <p id="history-empty" class="empty-state hidden">
+          <span class="empty-icon" aria-hidden="true">🐾</span>
+          Aún no hay registros en esta pestaña.
+          <button type="button" class="btn btn-primary btn-sm empty-cta" data-open-measure>Nueva lectura</button>
+        </p>
       </section>
 
-      <section class="card data-card">
-        <h2>Gestión de Datos</h2>
+      <section class="card data-card data-card-compact">
+        <h2 class="section-title-sm">Datos</h2>
         <div class="data-actions">
-          <button type="button" id="export-pdf-btn" class="btn btn-outline">Exportar PDF</button>
-          <button type="button" id="load-repo-backup-btn" class="btn btn-outline">Restaurar datos del servidor</button>
+          <button type="button" id="export-pdf-btn" class="btn btn-outline btn-data">Exportar PDF</button>
+          <button type="button" id="load-repo-backup-btn" class="btn btn-ghost btn-data">Restaurar datos</button>
         </div>
       </section>
     </main>
 
-    <button type="button" id="fab-new" class="fab" aria-label="Nueva medida">+</button>
+    <button type="button" id="fab-new" class="fab" aria-label="Nueva medida">
+      <span class="fab-icon">+</span>
+      <span class="fab-label">Nueva lectura</span>
+    </button>
   </div>
 
   <!-- Modal: Nueva lectura -->
