@@ -88,19 +88,23 @@ export function isGlucoseInRange(reading, goals) {
   return reading.value_mg_dl <= goal;
 }
 
-/** Clasificación AHA: se usa la categoría más alta que aplique. */
+/** Límites superiores de presión arterial normal (mmHg). */
+export const BP_NORMAL_SYSTOLIC_MAX = 121;
+export const BP_NORMAL_DIASTOLIC_MAX = 81;
+
+/** Clasificación AHA adaptada: se usa la categoría más alta que aplique. */
 export function classifyBloodPressure(systolic, diastolic) {
   if (systolic >= 140 || diastolic >= 90) {
     return { label: "Hipertensión etapa 2", className: "bp-high" };
   }
-  // 120–129 con diastólica ≤80 (incl. 120/80): elevada, no etapa 1
-  if (systolic >= 120 && systolic <= 129 && diastolic <= 80) {
+  // 122–129 con diastólica ≤81 (incl. 122/81): elevada, no etapa 1
+  if (systolic >= 122 && systolic <= 129 && diastolic <= BP_NORMAL_DIASTOLIC_MAX) {
     return { label: "Presión arterial elevada", className: "bp-elevated" };
   }
-  if ((systolic >= 130 && systolic <= 139) || (diastolic >= 80 && diastolic <= 89)) {
+  if ((systolic >= 130 && systolic <= 139) || (diastolic >= 82 && diastolic <= 89)) {
     return { label: "Hipertensión etapa 1", className: "bp-high" };
   }
-  if (systolic < 120 && diastolic < 80) {
+  if (systolic <= BP_NORMAL_SYSTOLIC_MAX && diastolic <= BP_NORMAL_DIASTOLIC_MAX) {
     return { label: "Presión arterial normal", className: "bp-normal" };
   }
   return { label: "Fuera de rango", className: "bp-elevated" };

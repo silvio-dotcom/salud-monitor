@@ -1,5 +1,5 @@
 import Chart from "chart.js/auto";
-import { glucoseTypeLabel, isGlucoseInRange } from "./config.js";
+import { glucoseTypeLabel, isGlucoseInRange, BP_NORMAL_SYSTOLIC_MAX } from "./config.js";
 
 const OUT_OF_RANGE_COLOR = "#dc2626";
 let chartInstance = null;
@@ -122,11 +122,11 @@ export function renderBpChart(canvas, readings, rangeDays) {
       pointRadius: 4,
     },
     {
-      label: "Normal (<120/80)",
+      label: "Normal (≤121/81)",
       data: filtered.length
         ? [
-            { x: 0, y: 120 },
-            { x: Math.max(0, dateIndex.size - 1), y: 120 },
+            { x: 0, y: BP_NORMAL_SYSTOLIC_MAX },
+            { x: Math.max(0, dateIndex.size - 1), y: BP_NORMAL_SYSTOLIC_MAX },
           ]
         : [],
       borderColor: "rgba(5,150,105,0.35)",
@@ -139,7 +139,7 @@ export function renderBpChart(canvas, readings, rangeDays) {
   renderLegend(document.getElementById("chart-legend"), [
     { color: BP_COLORS.systolic, label: "Sistólica" },
     { color: BP_COLORS.diastolic, label: "Diastólica" },
-    { color: "rgba(5,150,105,0.35)", label: "Referencia 120" },
+    { color: "rgba(5,150,105,0.35)", label: "Referencia 121" },
   ]);
 
   chartInstance = new Chart(canvas, {
