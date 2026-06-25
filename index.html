@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1" />
+  <meta name="theme-color" content="#0d9488" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Salud Monitor" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="description" content="Control personal de glucosa y presión arterial" />
+  <title>Salud Monitor</title>
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/theme.css" />
+</head>
+<body>
+  <div id="app" class="app">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand-block">
+          <span class="brand-icon sm" aria-hidden="true">♥</span>
+          <div>
+            <h1 id="patient-name" class="patient-name">Salud Monitor</h1>
+            <p class="topbar-tag">Monitoreo y Salud</p>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <button type="button" id="settings-btn" class="btn btn-icon" aria-label="Configuración">⚙</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="disclaimer-bar" role="note">
+      Seguimiento personal — consulta a tu médico para interpretación clínica.
+    </div>
+
+    <nav class="tab-nav" aria-label="Tipo de medida">
+      <button type="button" class="tab-btn active" data-tab="glucose">Glucosa</button>
+      <button type="button" class="tab-btn" data-tab="bp">Presión</button>
+    </nav>
+
+    <main class="main-content">
+      <section id="insights-panel" class="card insights-card">
+        <div class="card-header">
+          <h2>Insights</h2>
+          <button type="button" id="refresh-insights" class="btn btn-ghost btn-sm">Actualizar</button>
+        </div>
+        <div id="insights-content" class="insights-content"></div>
+      </section>
+
+      <section id="summary-panel" class="summary-grid"></section>
+
+      <section class="card chart-card">
+        <div class="card-header">
+          <h2 id="chart-title">Tendencia de Glucosa</h2>
+          <div class="chart-filters" role="group" aria-label="Rango de fechas">
+            <button type="button" class="filter-btn active" data-range="7">7d</button>
+            <button type="button" class="filter-btn" data-range="30">30d</button>
+            <button type="button" class="filter-btn" data-range="90">90d</button>
+            <button type="button" class="filter-btn" data-range="all">Todo</button>
+          </div>
+        </div>
+        <div class="chart-legend" id="chart-legend"></div>
+        <div class="chart-wrap">
+          <canvas id="main-chart" aria-label="Gráfica de tendencia"></canvas>
+        </div>
+      </section>
+
+      <section class="card history-card">
+        <div class="card-header">
+          <h2>Registros Históricos</h2>
+          <div class="header-actions">
+            <input type="search" id="history-search" class="search-input" placeholder="Buscar…" aria-label="Buscar registros" />
+            <select id="history-filter" class="select-input" aria-label="Filtrar por tipo">
+              <option value="all">Todos</option>
+            </select>
+          </div>
+        </div>
+        <ul id="history-list" class="history-list"></ul>
+        <p id="history-empty" class="empty-state hidden">No hay registros todavía.</p>
+      </section>
+
+      <section class="card data-card">
+        <h2>Gestión de Datos</h2>
+        <div class="data-actions">
+          <button type="button" id="export-json-btn" class="btn btn-outline">Exportar JSON</button>
+          <button type="button" id="export-pdf-btn" class="btn btn-outline">Exportar PDF</button>
+          <label class="btn btn-outline file-label">
+            Importar JSON
+            <input type="file" id="import-json-input" accept=".json,application/json" hidden />
+          </label>
+          <button type="button" id="load-repo-backup-btn" class="btn btn-outline">Cargar backup GitHub</button>
+          <button type="button" id="reset-data-btn" class="btn btn-danger-outline">Reiniciar Historial</button>
+        </div>
+        <p class="data-hint">Para respaldar en GitHub: exporta JSON, guárdalo como <code>public/data/backup.json</code> y haz push.</p>
+      </section>
+    </main>
+
+    <button type="button" id="fab-new" class="fab" aria-label="Nueva medida">+</button>
+  </div>
+
+  <!-- Modal: Nueva medida -->
+  <dialog id="measure-modal" class="modal">
+    <form id="measure-form" class="modal-body">
+      <div class="modal-header">
+        <h2 id="measure-modal-title">Nueva Medida</h2>
+        <button type="button" class="btn btn-icon modal-close" data-close aria-label="Cerrar">×</button>
+      </div>
+      <input type="hidden" id="measure-id" name="id" />
+      <input type="hidden" id="measure-kind" name="kind" />
+
+      <label for="measure-datetime">Fecha y hora</label>
+      <input type="datetime-local" id="measure-datetime" name="recorded_at" required />
+
+      <!-- Glucose fields -->
+      <div id="glucose-fields">
+        <label for="measure-glucose-type">Tipo</label>
+        <select id="measure-glucose-type" name="glucose_type">
+          <option value="ayunas">Ayunas</option>
+          <option value="pre_comida">Pre-Comida</option>
+          <option value="post_comida">Post-Comida</option>
+        </select>
+
+        <div id="meal-fields" class="hidden">
+          <label for="measure-meal">Comida</label>
+          <select id="measure-meal" name="meal"></select>
+        </div>
+
+        <div id="hours-post-fields" class="hidden">
+          <label for="measure-hours-post">Horas después de comer</label>
+          <select id="measure-hours-post" name="hours_post">
+            <option value="1">1 hora</option>
+            <option value="2">2 horas</option>
+          </select>
+        </div>
+
+        <label for="measure-glucose-value">Glucosa (mg/dL)</label>
+        <input type="number" id="measure-glucose-value" name="value_mg_dl" min="40" max="600" step="1" inputmode="decimal" enterkeyhint="done" />
+      </div>
+
+      <!-- BP fields -->
+      <div id="bp-fields" class="hidden">
+        <div class="field-row">
+          <div>
+            <label for="measure-systolic">Sistólica</label>
+            <input type="number" id="measure-systolic" name="systolic" min="70" max="250" inputmode="numeric" />
+          </div>
+          <div>
+            <label for="measure-diastolic">Diastólica</label>
+            <input type="number" id="measure-diastolic" name="diastolic" min="40" max="150" inputmode="numeric" />
+          </div>
+        </div>
+        <label for="measure-pulse">Pulso (opcional)</label>
+        <input type="number" id="measure-pulse" name="pulse" min="40" max="200" inputmode="numeric" />
+        <label for="measure-arm">Brazo</label>
+        <select id="measure-arm" name="arm">
+          <option value="izquierdo">Izquierdo</option>
+          <option value="derecho">Derecho</option>
+        </select>
+        <p id="bp-classification" class="bp-classification" aria-live="polite"></p>
+      </div>
+
+      <label for="measure-notes">Notas (opcional)</label>
+      <textarea id="measure-notes" name="notes" rows="2" placeholder="Ej. después de caminar, medicamento…"></textarea>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" data-close>Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Modal: Configuración -->
+  <dialog id="settings-modal" class="modal">
+    <form id="settings-form" class="modal-body">
+      <div class="modal-header">
+        <h2>Configuración</h2>
+        <button type="button" class="btn btn-icon modal-close" data-close aria-label="Cerrar">×</button>
+      </div>
+      <label for="settings-patient-name">Nombre del paciente</label>
+      <input type="text" id="settings-patient-name" name="patient_name" placeholder="Ej. Bebe Grijalva Cruz" />
+      <fieldset class="goals-fieldset">
+        <legend>Metas de glucosa (mg/dL)</legend>
+        <div class="field-row">
+          <div><label for="goal-fasting">Ayunas</label><input type="number" id="goal-fasting" name="goal_fasting" min="70" max="200" /></div>
+          <div><label for="goal-pre">Pre-comida</label><input type="number" id="goal-pre" name="goal_pre_meal" min="70" max="200" /></div>
+        </div>
+        <div class="field-row">
+          <div><label for="goal-post1">Post 1h</label><input type="number" id="goal-post1" name="goal_post_1h" min="70" max="300" /></div>
+          <div><label for="goal-post2">Post 2h</label><input type="number" id="goal-post2" name="goal_post_2h" min="70" max="300" /></div>
+        </div>
+      </fieldset>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" data-close>Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

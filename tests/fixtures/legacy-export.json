@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "exported_at": "2026-06-25T08:00:00.000Z",
+  "profile": {
+    "patient_name": "Bebe Grijalva Cruz",
+    "goals": { "fasting": 100, "pre_meal": 110, "post_1h": 140, "post_2h": 120 }
+  },
+  "glucose": [
+    {
+      "date": "2026-06-25T08:00:00",
+      "type": "Ayunas",
+      "value": 94
+    },
+    {
+      "date": "2026-06-24T14:00:00",
+      "tipo": "Post-Comida (Almuerzo) (1h)",
+      "value_mg_dl": 115,
+      "meal": "almuerzo",
+      "hours_post": 1
+    },
+    {
+      "recorded_at": "2026-06-23T20:00:00.000Z",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 150,
+      "meal": "cena",
+      "hours_post": 1
+    }
+  ],
+  "bloodPressure": [
+    {
+      "date": "2026-06-25T09:00:00",
+      "systolic": 118,
+      "diastolic": 76,
+      "pulse": 72,
+      "arm": "izquierdo"
+    }
+  ]
+}
