@@ -105,28 +105,23 @@ function openMeasureModal({ kind, record = null }) {
   const modal = document.getElementById("measure-modal");
   const form = document.getElementById("measure-form");
   form.reset();
-  document.getElementById("measure-kind").value = kind;
   document.getElementById("measure-id").value = record?.id || "";
-  document.getElementById("measure-modal-title").textContent = record
-    ? "Editar Medida"
-    : "Nueva Medida";
+  document.getElementById("measure-modal-title").innerHTML = record
+    ? 'Editar Lectura <span class="reading-deco" aria-hidden="true">🐾</span>'
+    : 'Nueva Lectura <span class="reading-deco" aria-hidden="true">🐾</span>';
 
-  const glucoseFields = document.getElementById("glucose-fields");
-  const bpFields = document.getElementById("bp-fields");
-  glucoseFields.classList.toggle("hidden", kind !== "glucose");
-  bpFields.classList.toggle("hidden", kind !== "bp");
+  setMeasureKind(kind || "glucose");
 
   const dt = record?.recorded_at || new Date().toISOString();
   document.getElementById("measure-datetime").value = toDatetimeLocalValue(dt);
 
   if (kind === "glucose" && record) {
-    document.getElementById("measure-glucose-type").value = record.glucose_type;
+    setGlucoseType(record.glucose_type, record.meal);
     document.getElementById("measure-glucose-value").value = record.value_mg_dl;
-    syncGlucoseFormFields(record.glucose_type, record.meal);
     setHoursPost(record.hours_post || 1);
     document.getElementById("measure-notes").value = record.notes || "";
   } else if (kind === "glucose") {
-    syncGlucoseFormFields(document.getElementById("measure-glucose-type").value);
+    setGlucoseType("ayunas");
     setHoursPost(1);
   }
 
@@ -134,37 +129,70 @@ function openMeasureModal({ kind, record = null }) {
     document.getElementById("measure-systolic").value = record.systolic;
     document.getElementById("measure-diastolic").value = record.diastolic;
     document.getElementById("measure-pulse").value = record.pulse ?? "";
-    document.getElementById("measure-arm").value = record.arm || "izquierdo";
+    setArm(record.arm || "izquierdo");
     document.getElementById("measure-notes").value = record.notes || "";
     updateBpClassification();
+  } else if (kind === "bp") {
+    setArm("izquierdo");
   }
 
-  if (kind === "glucose") {
-    document.getElementById("measure-glucose-value").required = true;
-    document.getElementById("measure-systolic").required = false;
-    document.getElementById("measure-diastolic").required = false;
-  } else {
-    document.getElementById("measure-glucose-value").required = false;
-    document.getElementById("measure-systolic").required = true;
-    document.getElementById("measure-diastolic").required = true;
-  }
-
+  updateRequiredFields(kind || "glucose");
   modal.showModal();
+  if (kind === "glucose") {
+    setTimeout(() => document.getElementById("measure-glucose-value")?.focus(), 100);
+  }
 }
 
-function populateMealOptions(type, selected) {
-  const select = document.getElementById("measure-meal");
+function setMeasureKind(kind) {
+  document.getElementById("measure-kind").value = kind;
+  document.getElementById("glucose-fields").classList.toggle("hidden", kind !== "glucose");
+  document.getElementById("bp-fields").classList.toggle("hidden", kind !== "bp");
+  document.querySelectorAll(".pill-toggle-btn").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.kind === kind);
+  });
+  updateRequiredFields(kind);
+}
+
+function updateRequiredFields(kind) {
+  const glucoseVal = document.getElementById("measure-glucose-value");
+  const sys = document.getElementById("measure-systolic");
+  const dia = document.getElementById("measure-diastolic");
+  glucoseVal.required = kind === "glucose";
+  sys.required = kind === "bp";
+  dia.required = kind === "bp";
+}
+
+function setGlucoseType(type, selectedMeal) {
+  document.getElementById("measure-glucose-type").value = type;
+  document.querySelectorAll(".type-segment").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.type === type);
+  });
+  syncGlucoseFormFields(type, selectedMeal);
+}
+
+function renderMealChoices(type, selected) {
+  const container = document.getElementById("meal-choices");
   const meals = MEALS_BY_TYPE[type] || [];
-  select.innerHTML = meals
-    .map((key) => `<option value="${key}">${MEALS[key]}</option>`)
+  container.classList.toggle("cols-3", meals.length === 3);
+  let html = meals
+    .map(
+      (key) =>
+        `<button type="button" class="meal-choice${selected === key ? " active" : ""}" data-meal="${key}">${MEALS[key]}</button>`
+    )
     .join("");
   if (selected && !meals.includes(selected)) {
-    const opt = document.createElement("option");
-    opt.value = selected;
-    opt.textContent = MEALS[selected] || selected;
-    select.appendChild(opt);
+    html += `<button type="button" class="meal-choice active" data-meal="${selected}">${MEALS[selected] || selected}</button>`;
   }
-  if (selected) select.value = selected;
+  container.innerHTML = html;
+  const fallback = selected && (meals.includes(selected) || selected) ? selected : meals[0];
+  if (fallback) setMeal(fallback);
+}
+
+function setMeal(meal) {
+  document.getElementById("measure-meal").value = meal;
+  document.querySelectorAll(".meal-choice").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.meal === meal);
+  });
 }
 
 function syncGlucoseFormFields(type, selectedMeal) {
@@ -173,7 +201,7 @@ function syncGlucoseFormFields(type, selectedMeal) {
   const showMeal = type === "pre_comida" || type === "post_comida";
   mealFields.classList.toggle("hidden", !showMeal);
   hoursFields.classList.toggle("hidden", type !== "post_comida");
-  if (showMeal) populateMealOptions(type, selectedMeal);
+  if (showMeal) renderMealChoices(type, selectedMeal || document.getElementById("measure-meal").value);
   if (type === "post_comida" && !selectedMeal) setHoursPost(1);
 }
 
@@ -182,6 +210,13 @@ function setHoursPost(hours) {
   document.getElementById("measure-hours-post").value = value;
   document.querySelectorAll(".hours-segment").forEach((btn) => {
     btn.classList.toggle("active", Number(btn.dataset.hours) === value);
+  });
+}
+
+function setArm(arm) {
+  document.getElementById("measure-arm").value = arm;
+  document.querySelectorAll(".arm-segment").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.arm === arm);
   });
 }
 
@@ -210,7 +245,7 @@ async function handleMeasureSubmit(e) {
     if (kind === "glucose") {
       const glucose_type = document.getElementById("measure-glucose-type").value;
       const value_mg_dl = Number(document.getElementById("measure-glucose-value").value);
-      if (!value_mg_dl) throw new Error("Ingresa un valor de glucosa.");
+      if (!value_mg_dl) throw new Error("Ingresa el nivel de azúcar.");
       const hours_post =
         glucose_type === "post_comida"
           ? Number(document.getElementById("measure-hours-post").value)
@@ -272,13 +307,28 @@ function bindUi() {
   });
 
   document.getElementById("measure-form").addEventListener("submit", handleMeasureSubmit);
-  document.getElementById("measure-glucose-type").addEventListener("change", (e) => {
-    syncGlucoseFormFields(e.target.value);
+
+  document.querySelectorAll(".pill-toggle-btn").forEach((btn) => {
+    btn.addEventListener("click", () => setMeasureKind(btn.dataset.kind));
+  });
+
+  document.querySelectorAll(".type-segment").forEach((btn) => {
+    btn.addEventListener("click", () => setGlucoseType(btn.dataset.type));
+  });
+
+  document.getElementById("meal-choices").addEventListener("click", (e) => {
+    const btn = e.target.closest(".meal-choice");
+    if (btn) setMeal(btn.dataset.meal);
   });
 
   document.querySelectorAll(".hours-segment").forEach((btn) => {
     btn.addEventListener("click", () => setHoursPost(Number(btn.dataset.hours)));
   });
+
+  document.querySelectorAll(".arm-segment").forEach((btn) => {
+    btn.addEventListener("click", () => setArm(btn.dataset.arm));
+  });
+
   document.getElementById("measure-systolic").addEventListener("input", updateBpClassification);
   document.getElementById("measure-diastolic").addEventListener("input", updateBpClassification);
 

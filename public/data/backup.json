@@ -1,0 +1,682 @@
+{
+  "version": 1,
+  "exported_at": "2026-06-25T22:03:34.889577Z",
+  "profile": {
+    "patient_name": "Bebe Grijalva Cruz",
+    "goals": {
+      "fasting": 100,
+      "pre_meal": 110,
+      "post_1h": 140,
+      "post_2h": 120
+    }
+  },
+  "glucose": [
+    {
+      "id": "1f4844f2-580f-448d-873f-df4fb3954f77",
+      "recorded_at": "2026-06-25T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 94,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "e81bc78c-7f15-4886-a18d-27d9ace33a52",
+      "recorded_at": "2026-06-24T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 115,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "1436667f-72e0-4ea3-861b-6e6e722d1f5b",
+      "recorded_at": "2026-06-24T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 109,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "4f977e06-4533-4790-86c4-1a2d64f89506",
+      "recorded_at": "2026-06-24T07:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 84,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "3ce288af-c43c-4aa8-9955-2d630555ced7",
+      "recorded_at": "2026-06-23T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 119,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "eb6b71a6-6591-46e2-94cf-25390604c667",
+      "recorded_at": "2026-06-23T20:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 150,
+      "meal": "cena",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "9aff0aaa-fd53-48f6-861b-9a717cd42ec0",
+      "recorded_at": "2026-06-23T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 91,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "2a94f453-4c94-49ae-94cb-3454e1aa7a01",
+      "recorded_at": "2026-06-22T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 104,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "5f1e842c-bd27-4a3d-b3fd-9101967f3d01",
+      "recorded_at": "2026-06-15T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 93,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "ad2cb3c4-f311-4622-90d8-c3e0f6059b0a",
+      "recorded_at": "2026-06-10T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 125,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "352ef0aa-86fd-4e7f-a42c-3961139e2301",
+      "recorded_at": "2026-06-10T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 89,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "9d96e97b-75dc-4223-8f36-88a9be022826",
+      "recorded_at": "2026-06-03T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 85,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "fefc7256-1aff-4958-82d2-624bac8381ff",
+      "recorded_at": "2026-05-31T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 85,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "a4c466b4-0959-4ef3-8ec9-827c8c91ffc9",
+      "recorded_at": "2026-05-28T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 117,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "20d84212-6249-41a2-b548-2de788eef466",
+      "recorded_at": "2026-05-27T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 93,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "7e5f8feb-997e-48f0-9c35-bff9e99333db",
+      "recorded_at": "2026-05-25T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 97,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "ffa505f1-efc1-4669-8f2f-16db35ceb97d",
+      "recorded_at": "2026-05-23T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 91,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "85075612-b03b-465e-b850-9cf4f2685a0a",
+      "recorded_at": "2026-05-19T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 88,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "d097def8-814f-4e6d-a7e6-ba1a2d4a7a8a",
+      "recorded_at": "2026-05-14T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 96,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "c30507fa-2f06-4b77-bcaa-928509829b8f",
+      "recorded_at": "2026-05-14T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 86,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "a17cc18a-71fa-45aa-ac19-add25f9aa3c1",
+      "recorded_at": "2026-05-11T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 110,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "1ebc9dc7-e365-48c7-9b83-4acb483b9c8c",
+      "recorded_at": "2026-05-11T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 93,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "46c7e5f3-f7d5-4f50-aa18-58bd50566997",
+      "recorded_at": "2026-05-09T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 87,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "3144d140-778c-4af1-ab57-270ffe9f052c",
+      "recorded_at": "2026-05-04T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 124,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "f6c89755-f7c6-4b6c-a418-df63c2fbc24a",
+      "recorded_at": "2026-05-03T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 89,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "77e7b934-cb7e-4d21-b7f4-ba955d282238",
+      "recorded_at": "2026-05-01T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 92,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "cb71bb18-5793-4e6d-b91e-e95d58a34c02",
+      "recorded_at": "2026-04-28T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 113,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "1e85b65f-146a-4065-a531-414775ed6f92",
+      "recorded_at": "2026-04-28T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 88,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "51158ef9-bc29-4be6-9347-f7a10862d336",
+      "recorded_at": "2026-04-25T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 133,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "0e6a6273-d8b7-4e4e-8bbe-2ca5c2269ef2",
+      "recorded_at": "2026-04-25T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 89,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "ebe8256b-a6fb-4c0b-9728-16000e1870b6",
+      "recorded_at": "2026-04-24T20:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 129,
+      "meal": "cena",
+      "hours_post": 2,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "0747ff50-d12d-4668-b93b-14422f46fea0",
+      "recorded_at": "2026-04-20T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 89,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "864ec92a-0099-4fa6-a109-9f66aba5ae58",
+      "recorded_at": "2026-04-16T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 96,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "23674cf1-b39d-48ac-8c0f-07113d9ba9b3",
+      "recorded_at": "2026-04-15T20:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 105,
+      "meal": "cena",
+      "hours_post": 2,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "e3708da2-2a74-4693-b695-2a83a773d4d7",
+      "recorded_at": "2026-04-10T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 129,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "2de30739-5f0c-4f8d-9544-9ab514129623",
+      "recorded_at": "2026-04-09T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 89,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "29946e22-31f7-4290-9faf-8fd59f2e77fc",
+      "recorded_at": "2026-04-07T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 92,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "c7cb6b5c-b653-496b-8d55-3c379af01fae",
+      "recorded_at": "2026-04-04T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 102,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "6db1212e-33a2-4419-8439-4290df01b5ea",
+      "recorded_at": "2026-04-04T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 90,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "29a13fd6-05b8-49f7-a8bb-e5dc42abdb44",
+      "recorded_at": "2026-03-27T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 110,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "8f77264e-bba2-4b6e-aed3-9690517360b7",
+      "recorded_at": "2026-03-27T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 87,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "3b2a6b1f-06b5-4701-9132-99671d583088",
+      "recorded_at": "2026-03-25T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 100,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "38bddaa6-c98c-47dd-a8bf-337019a4ae35",
+      "recorded_at": "2026-03-22T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 94,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "4b4976a6-a9dd-4498-9bb2-865586675645",
+      "recorded_at": "2026-03-19T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 120,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "f40fd4d2-04ee-44ac-aa1d-62546d88a567",
+      "recorded_at": "2026-03-19T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 91,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "63de66d2-174f-4182-9169-a6735c2940f2",
+      "recorded_at": "2026-03-16T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 122,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "ba7b3cd1-4d91-4eab-9add-9dfcdd87ee06",
+      "recorded_at": "2026-03-13T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 90,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "7955ef9d-978d-487a-a2bc-3a698d0d62e7",
+      "recorded_at": "2026-03-10T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 89,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "aead7912-5050-432a-b095-5fdda4a2e9c9",
+      "recorded_at": "2026-03-07T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 107,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "3678aa99-3eb9-4659-a93b-7eed9f0089a3",
+      "recorded_at": "2026-03-06T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 87,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "3ff22aef-3c18-4fc3-95ab-a41a0ea58536",
+      "recorded_at": "2026-03-01T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 107,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "1e165e3f-b5e8-468d-ad94-3ad8ad610b33",
+      "recorded_at": "2026-03-01T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 92,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "6428328d-272a-491c-8073-a94dd4897d3a",
+      "recorded_at": "2026-02-28T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 84,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "f4a8702d-59a6-4393-9dfe-62ab2dafb33f",
+      "recorded_at": "2026-02-27T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 122,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "2bde4a21-17cd-47b3-8763-672795755f12",
+      "recorded_at": "2026-02-27T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 85,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "5378ad2c-f5b5-458e-a49a-aa11a863314e",
+      "recorded_at": "2026-02-26T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 93,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "c2d631cb-46fb-4e90-81f4-5cd1caf9f07c",
+      "recorded_at": "2026-02-26T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 87,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "981cab79-9e1e-4e29-bd29-03a4b6cd5f5f",
+      "recorded_at": "2026-02-24T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 104,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "1437049d-9648-4d38-b265-5d947cd138c7",
+      "recorded_at": "2026-02-23T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 118,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "29738c28-f8a2-4998-bb97-72b34cf9932f",
+      "recorded_at": "2026-02-23T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 84,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "2a093768-eca4-4a5e-8982-ed79e2afd08d",
+      "recorded_at": "2026-02-22T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 88,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "5909ea6e-dd6f-4e1d-9857-df99e7734b05",
+      "recorded_at": "2026-02-19T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 87,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "d40f0d2d-2519-47c6-bc0c-78aed90bbb82",
+      "recorded_at": "2026-02-17T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 132,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "3948ee0a-8ab5-4578-a8a8-09527e2586b4",
+      "recorded_at": "2026-02-17T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 90,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "a84f657d-62c4-4641-bcdb-b7ddbe8b424e",
+      "recorded_at": "2026-02-14T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 89,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "f9ede117-ed89-43f0-8ce4-9842c7029df5",
+      "recorded_at": "2026-02-12T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 108,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "54b4077c-39a1-4c78-935c-9cb83743e5d5",
+      "recorded_at": "2026-02-12T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 91,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "4c9098ac-04b7-42aa-86fd-54d3582513f6",
+      "recorded_at": "2026-02-10T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 105,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "453e2e97-bb98-43a5-81f8-c6665593c0ca",
+      "recorded_at": "2026-02-10T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 87,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "fdc719a9-229b-4997-a346-03bb4d42e8ca",
+      "recorded_at": "2026-02-08T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 114,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "7e1e83c3-889f-4fd6-bb05-0edb02640cfa",
+      "recorded_at": "2026-02-07T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 96,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "00903598-12ed-457d-9fc3-0f72d922cb17",
+      "recorded_at": "2026-02-06T14:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 144,
+      "meal": "almuerzo",
+      "hours_post": 1,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "da5d8275-a8e8-4b2c-9fa4-23c41c702244",
+      "recorded_at": "2026-02-05T20:00:00.000-04:00",
+      "glucose_type": "post_comida",
+      "value_mg_dl": 130,
+      "meal": "cena",
+      "hours_post": 2,
+      "notes": "Importado desde PDF"
+    },
+    {
+      "id": "e57c46aa-91fb-44e0-a7e5-d7d65f619047",
+      "recorded_at": "2026-02-05T08:00:00.000-04:00",
+      "glucose_type": "ayunas",
+      "value_mg_dl": 90,
+      "meal": null,
+      "hours_post": null,
+      "notes": "Importado desde PDF"
+    }
+  ],
+  "blood_pressure": []
+}

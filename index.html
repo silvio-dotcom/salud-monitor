@@ -102,76 +102,103 @@
     <button type="button" id="fab-new" class="fab" aria-label="Nueva medida">+</button>
   </div>
 
-  <!-- Modal: Nueva medida -->
-  <dialog id="measure-modal" class="modal">
-    <form id="measure-form" class="modal-body">
-      <div class="modal-header">
-        <h2 id="measure-modal-title">Nueva Medida</h2>
-        <button type="button" class="btn btn-icon modal-close" data-close aria-label="Cerrar">×</button>
-      </div>
+  <!-- Modal: Nueva lectura -->
+  <dialog id="measure-modal" class="modal measure-modal">
+    <form id="measure-form" class="reading-form">
+      <header class="reading-header">
+        <h2 id="measure-modal-title">Nueva Lectura <span class="reading-deco" aria-hidden="true">🐾</span></h2>
+      </header>
+
       <input type="hidden" id="measure-id" name="id" />
-      <input type="hidden" id="measure-kind" name="kind" />
+      <input type="hidden" id="measure-kind" name="kind" value="glucose" />
+      <input type="hidden" id="measure-glucose-type" name="glucose_type" value="ayunas" />
+      <input type="hidden" id="measure-meal" name="meal" value="almuerzo" />
+      <input type="hidden" id="measure-hours-post" name="hours_post" value="1" />
 
-      <label for="measure-datetime">Fecha y hora</label>
-      <input type="datetime-local" id="measure-datetime" name="recorded_at" required />
+      <div class="pill-toggle" role="tablist" aria-label="Tipo de medida">
+        <button type="button" class="pill-toggle-btn active" data-kind="glucose">Glucosa</button>
+        <button type="button" class="pill-toggle-btn" data-kind="bp">Presión</button>
+      </div>
 
-      <!-- Glucose fields -->
-      <div id="glucose-fields">
-        <label for="measure-glucose-type">Tipo</label>
-        <select id="measure-glucose-type" name="glucose_type">
-          <option value="ayunas">Ayunas</option>
-          <option value="pre_comida">Pre-Comida</option>
-          <option value="post_comida">Post-Comida</option>
-        </select>
-
-        <div id="meal-fields" class="hidden">
-          <label for="measure-meal">Comida</label>
-          <select id="measure-meal" name="meal"></select>
+      <div id="glucose-fields" class="reading-section">
+        <p class="field-label">Nivel de azúcar</p>
+        <div class="value-display">
+          <input
+            type="number"
+            id="measure-glucose-value"
+            name="value_mg_dl"
+            class="value-display-input"
+            min="40"
+            max="600"
+            step="1"
+            inputmode="decimal"
+            enterkeyhint="done"
+            placeholder="0"
+            aria-label="Nivel de azúcar en mg/dL"
+          />
+          <span class="value-unit">mg/dL</span>
         </div>
 
-        <div id="hours-post-fields" class="hidden">
-          <label>¿Cuánto tiempo después de comer?</label>
-          <p class="field-hint">Selecciona 1 hora o 2 horas post-comida</p>
+        <div class="segmented segmented-3" role="group" aria-label="Momento de la medición">
+          <button type="button" class="segment type-segment active" data-type="ayunas">Ayunas</button>
+          <button type="button" class="segment type-segment" data-type="pre_comida">Pre-Comida</button>
+          <button type="button" class="segment type-segment" data-type="post_comida">Post-Comida</button>
+        </div>
+
+        <div id="meal-fields" class="reading-block hidden">
+          <p class="field-label">¿Qué comida será?</p>
+          <div class="choice-grid" id="meal-choices" role="group" aria-label="Tipo de comida"></div>
+        </div>
+
+        <div id="hours-post-fields" class="reading-block hidden">
+          <p class="field-label">Tiempo post-comida</p>
           <div class="segmented" role="group" aria-label="Horas post-comida">
             <button type="button" class="segment hours-segment active" data-hours="1">1 hora</button>
             <button type="button" class="segment hours-segment" data-hours="2">2 horas</button>
           </div>
-          <input type="hidden" id="measure-hours-post" name="hours_post" value="1" />
         </div>
-
-        <label for="measure-glucose-value">Glucosa (mg/dL)</label>
-        <input type="number" id="measure-glucose-value" name="value_mg_dl" min="40" max="600" step="1" inputmode="decimal" enterkeyhint="done" />
       </div>
 
-      <!-- BP fields -->
-      <div id="bp-fields" class="hidden">
-        <div class="field-row">
-          <div>
-            <label for="measure-systolic">Sistólica</label>
-            <input type="number" id="measure-systolic" name="systolic" min="70" max="250" inputmode="numeric" />
+      <div id="bp-fields" class="reading-section hidden">
+        <p class="field-label">Presión arterial</p>
+        <div class="bp-value-row">
+          <div class="value-display value-display-sm">
+            <input type="number" id="measure-systolic" name="systolic" class="value-display-input" min="70" max="250" inputmode="numeric" placeholder="120" aria-label="Sistólica" />
+            <span class="value-unit-sm">SYS</span>
           </div>
-          <div>
-            <label for="measure-diastolic">Diastólica</label>
-            <input type="number" id="measure-diastolic" name="diastolic" min="40" max="150" inputmode="numeric" />
+          <span class="bp-slash">/</span>
+          <div class="value-display value-display-sm">
+            <input type="number" id="measure-diastolic" name="diastolic" class="value-display-input" min="40" max="150" inputmode="numeric" placeholder="80" aria-label="Diastólica" />
+            <span class="value-unit-sm">DIA</span>
           </div>
         </div>
-        <label for="measure-pulse">Pulso (opcional)</label>
-        <input type="number" id="measure-pulse" name="pulse" min="40" max="200" inputmode="numeric" />
-        <label for="measure-arm">Brazo</label>
-        <select id="measure-arm" name="arm">
-          <option value="izquierdo">Izquierdo</option>
-          <option value="derecho">Derecho</option>
-        </select>
         <p id="bp-classification" class="bp-classification" aria-live="polite"></p>
+
+        <p class="field-label">Pulso (opcional)</p>
+        <div class="value-display value-display-sm">
+          <input type="number" id="measure-pulse" name="pulse" class="value-display-input" min="40" max="200" inputmode="numeric" placeholder="72" aria-label="Pulso" />
+          <span class="value-unit-sm">lpm</span>
+        </div>
+
+        <p class="field-label">Brazo</p>
+        <div class="segmented" role="group" aria-label="Brazo">
+          <button type="button" class="segment arm-segment active" data-arm="izquierdo">Izquierdo</button>
+          <button type="button" class="segment arm-segment" data-arm="derecho">Derecho</button>
+        </div>
+        <input type="hidden" id="measure-arm" name="arm" value="izquierdo" />
       </div>
 
-      <label for="measure-notes">Notas (opcional)</label>
-      <textarea id="measure-notes" name="notes" rows="2" placeholder="Ej. después de caminar, medicamento…"></textarea>
-
-      <div class="modal-actions">
-        <button type="button" class="btn btn-ghost" data-close>Cancelar</button>
-        <button type="submit" class="btn btn-primary">Guardar</button>
+      <div class="datetime-field">
+        <input type="datetime-local" id="measure-datetime" name="recorded_at" required aria-label="Fecha y hora" />
+        <span class="datetime-icon" aria-hidden="true">📅</span>
       </div>
+
+      <textarea id="measure-notes" name="notes" class="notes-field" rows="3" placeholder="¿Algo especial hoy? 🐾"></textarea>
+
+      <footer class="reading-footer">
+        <button type="button" class="btn-text" data-close>Cerrar</button>
+        <button type="submit" class="btn-save">Guardar</button>
+      </footer>
     </form>
   </dialog>
 
