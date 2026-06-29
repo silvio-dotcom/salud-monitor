@@ -27,6 +27,14 @@ function readLocal() {
       data.profile.gestational_week = DEFAULT_GESTATIONAL_WEEK;
       writeLocal(data);
     }
+    // Ancla antigua (23 jun) avanzó a 35 el lunes 29; reanclar semana 34 desde hoy.
+    if (
+      data.profile?.gestational_week === 35 &&
+      data.profile?.gestational_week_anchor === "2026-06-23"
+    ) {
+      data.profile = anchorGestationalWeek(data.profile, 34);
+      writeLocal(data);
+    }
     return applyProfileSync(data);
   } catch {
     return defaultLocalData();

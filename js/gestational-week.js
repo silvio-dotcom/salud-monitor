@@ -46,6 +46,7 @@ export function syncGestationalWeek(profile = {}) {
   }
 
   const weeksElapsed = weeksBetweenMondayKeys(anchorKey, currentKey);
+  // Misma semana calendario que el ancla → sin avance aún (el +1 es el próximo lunes).
   const week = Math.min(42, Math.max(1, baseWeek + weeksElapsed));
 
   return { ...profile, gestational_week: week };
