@@ -33,7 +33,7 @@ export const LOCAL_STORAGE_KEY = "salud-monitor-data-v1";
 export const DEFAULT_PATIENT_NAME = "Andy Grijalva Cruz";
 
 /** Semana gestacional actual (tercer trimestre). */
-export const DEFAULT_GESTATIONAL_WEEK = 33;
+export const DEFAULT_GESTATIONAL_WEEK = 34;
 
 export function formatDateTime(iso) {
   const d = new Date(iso);
@@ -108,6 +108,10 @@ export function classifyBloodPressure(systolic, diastolic) {
     return { label: "Presión arterial normal", className: "bp-normal" };
   }
   return { label: "Fuera de rango", className: "bp-elevated" };
+}
+
+export function isBpInRange(systolic, diastolic) {
+  return classifyBloodPressure(systolic, diastolic).className === "bp-normal";
 }
 
 export function newId() {

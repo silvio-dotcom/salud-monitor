@@ -1,10 +1,13 @@
 import {
   isGlucoseInRange,
+  isBpInRange,
   glucoseTypeLabel,
   classifyBloodPressure,
+  DEFAULT_GESTATIONAL_WEEK,
 } from "./config.js";
 
-const CACHE_KEY = "salud-ai-insights-v2";
+const CACHE_KEY = "salud-ai-insights-v3";
+const INSIGHTS_WINDOW_DAYS = 30;
 const CACHE_TTL_MS = 4 * 60 * 60 * 1000;
 const MAX_PARAGRAPH_CHARS = 320;
 
@@ -85,11 +88,16 @@ export function clearAiInsightsCache() {
   }
 }
 
+function inRangePct(items, isInRange) {
+  if (!items.length) return null;
+  return Math.round((items.filter(isInRange).length / items.length) * 100);
+}
+
 export function buildAiPayload({ tab, glucose, bloodPressure, goals, profile }) {
-  const gestational_week = profile.gestational_week ?? 33;
+  const gestational_week = profile.gestational_week ?? DEFAULT_GESTATIONAL_WEEK;
   const recentGlucose = glucose
-    .filter((r) => inWindow(r.recorded_at, 14))
-    .slice(0, 40)
+    .filter((r) => inWindow(r.recorded_at, INSIGHTS_WINDOW_DAYS))
+    .slice(0, 60)
     .map((r) => ({
       date: r.recorded_at.slice(0, 10),
       type: glucoseTypeLabel(r),
@@ -98,14 +106,15 @@ export function buildAiPayload({ tab, glucose, bloodPressure, goals, profile }) 
     }));
 
   const recentBp = bloodPressure
-    .filter((r) => inWindow(r.recorded_at, 14))
-    .slice(0, 20)
+    .filter((r) => inWindow(r.recorded_at, INSIGHTS_WINDOW_DAYS))
+    .slice(0, 40)
     .map((r) => {
       const c = classifyBloodPressure(r.systolic, r.diastolic);
       return {
         date: r.recorded_at.slice(0, 10),
         systolic: r.systolic,
         diastolic: r.diastolic,
+        in_range: isBpInRange(r.systolic, r.diastolic),
         classification: c.label,
       };
     });
@@ -118,15 +127,14 @@ export function buildAiPayload({ tab, glucose, bloodPressure, goals, profile }) 
     patient_name: profile.patient_name,
     gestational_week,
     goals,
+    window_days: INSIGHTS_WINDOW_DAYS,
     stats: {
-      glucose_count_14d: recentGlucose.length,
-      glucose_in_range_pct:
-        recentGlucose.length > 0
-          ? Math.round((recentGlucose.filter((r) => r.in_range).length / recentGlucose.length) * 100)
-          : null,
+      glucose_count_30d: recentGlucose.length,
+      glucose_in_range_pct: inRangePct(recentGlucose, (r) => r.in_range),
       avg_fasting: avg(fasting.map((r) => r.value_mg_dl)),
       avg_post: avg(post.map((r) => r.value_mg_dl)),
-      bp_count_14d: recentBp.length,
+      bp_count_30d: recentBp.length,
+      bp_in_range_pct: inRangePct(recentBp, (r) => r.in_range),
       avg_systolic: avg(recentBp.map((r) => r.systolic)),
       avg_diastolic: avg(recentBp.map((r) => r.diastolic)),
       latest_bp: recentBp[0] || null,
@@ -137,39 +145,41 @@ export function buildAiPayload({ tab, glucose, bloodPressure, goals, profile }) 
 }
 
 export function generateLocalPregnancyInsights(payload, { vary = false } = {}) {
-  const week = payload.gestational_week ?? 33;
+  const week = payload.gestational_week ?? DEFAULT_GESTATIONAL_WEEK;
+  const days = payload.window_days ?? INSIGHTS_WINDOW_DAYS;
   const { stats, tab } = payload;
 
   const pick = (items) => items[Math.floor(Math.random() * items.length)];
 
   if (tab === "glucose") {
-    if (stats.glucose_count_14d === 0) {
+    if (stats.glucose_count_30d === 0) {
       const text = vary
         ? pick([
             `Semana ${week}: registra glucosa en ayunas y post-comida para detectar cambios a tiempo. Cada lectura ayuda a ti y a tu médico. 🐾`,
-            `Semana ${week}: aún no hay glucosas recientes. Empieza con ayunas y anota post-comida para ver patrones claros. 🐾`,
+            `Semana ${week}: aún no hay glucosas en ${days} días. Empieza con ayunas y anota post-comida para ver patrones claros. 🐾`,
           ])
         : `Semana ${week} de embarazo: registra glucosa en ayunas y post-comida para detectar cambios a tiempo. Cada lectura ayuda a ti y a tu médico a ver el panorama completo. 🐾`;
       return { paragraph: trimParagraph(text), source: "local" };
     }
 
     const pct = stats.glucose_in_range_pct;
+    const count = stats.glucose_count_30d;
     const fasting = stats.avg_fasting != null ? Math.round(stats.avg_fasting) : null;
 
     if (vary && pct >= 75 && fasting != null) {
       const text = pick([
-        `Semana ${week}: ${pct}% en meta en 14 días. Ayunas ~${fasting} mg/dL — control sólido en este tramo. 🐾`,
-        `Semana ${week}: vas bien — ${pct}% de glucosas en meta y ayunas ~${fasting} mg/dL. Sigue con la misma rutina. 🐾`,
+        `Semana ${week}: en ${days} días, ${pct}% en meta (${count} lecturas). Ayunas ~${fasting} mg/dL — control sólido. 🐾`,
+        `Semana ${week}: ${pct}% de glucosas en meta en ${days} días (${count} medidas). Ayunas ~${fasting} mg/dL. Sigue así. 🐾`,
       ]);
       return { paragraph: trimParagraph(text), source: "local" };
     }
 
-    let text = `Semana ${week}: en 14 días, ${pct}% de tus glucosas estuvieron en meta.`;
+    let text = `Semana ${week}: en los últimos ${days} días, ${pct}% de tus glucosas (${count} medidas) estuvieron en meta.`;
 
     if (fasting != null) {
       text +=
         pct >= 75
-          ? ` Tu ayunas promedia ~${fasting} mg/dL y se ve estable — muy buen control en este tramo del embarazo. 🐾`
+          ? ` Tu ayunas promedia ~${fasting} mg/dL — muy buen control en este tramo del embarazo. 🐾`
           : ` Tu ayunas promedia ~${fasting} mg/dL; anota qué comiste cuando suba post-comida y compártelo en tu cita.`;
     } else {
       text += " Sigue registrando a la misma hora para ver patrones más claros.";
@@ -178,11 +188,11 @@ export function generateLocalPregnancyInsights(payload, { vary = false } = {}) {
     return { paragraph: trimParagraph(text), source: "local" };
   }
 
-  if (stats.bp_count_14d === 0) {
+  if (stats.bp_count_30d === 0) {
     const text = vary
       ? pick([
           `Semana ${week}: mide presión 2–3 veces por semana en reposo. En el tercer trimestre es clave para tu control prenatal. 🐾`,
-          `Semana ${week}: aún no hay presión reciente. Registra en el mismo brazo y horario para comparar bien. 🐾`,
+          `Semana ${week}: aún no hay presión en ${days} días. Registra en el mismo brazo y horario para comparar bien. 🐾`,
         ])
       : `Semana ${week}: en el tercer trimestre conviene medir presión 2–3 veces por semana, en reposo y mismo brazo. Así detectas cambios temprano junto a tu equipo médico. 🐾`;
     return { paragraph: trimParagraph(text), source: "local" };
@@ -192,21 +202,23 @@ export function generateLocalPregnancyInsights(payload, { vary = false } = {}) {
   const bpClass = latest ? classifyBloodPressure(latest.systolic, latest.diastolic).className : null;
   const avgSys = stats.avg_systolic != null ? Math.round(stats.avg_systolic) : null;
   const avgDia = stats.avg_diastolic != null ? Math.round(stats.avg_diastolic) : null;
+  const bpPct = stats.bp_in_range_pct;
+  const bpCount = stats.bp_count_30d;
 
   let text;
   if (latest && bpClass === "bp-high") {
-    text = `Semana ${week}: tu última presión fue ${latest.systolic}/${latest.diastolic} mmHg. Si se repite o tienes dolor de cabeza, visión borrosa o hinchazón súbita, contacta a tu médico hoy.`;
+    text = `Semana ${week}: en ${days} días, ${bpPct}% en rango normal (${bpCount} medidas). Tu última fue ${latest.systolic}/${latest.diastolic} mmHg — si se repite o hay dolor de cabeza, visión borrosa o hinchazón, contacta a tu médico hoy.`;
   } else if (latest && bpClass === "bp-elevated") {
-    text = `Semana ${week}: última presión ${latest.systolic}/${latest.diastolic} mmHg — ligeramente elevada. Sigue monitoreando en reposo y coméntalo en tu próxima cita. 🐾`;
+    text = `Semana ${week}: en ${days} días, ${bpPct}% en rango normal (${bpCount} medidas). Última ${latest.systolic}/${latest.diastolic} mmHg — ligeramente elevada; sigue en reposo y coméntalo en tu cita. 🐾`;
   } else if (avgSys != null && avgDia != null) {
     text = vary
       ? pick([
-          `Semana ${week}: presión promedio ~${avgSys}/${avgDia} mmHg — adecuada para esta etapa. Sigue en reposo, mismo brazo. 🐾`,
-          `Semana ${week}: ~${avgSys}/${avgDia} mmHg de promedio reciente. Buen seguimiento — mantén el ritmo. 🐾`,
+          `Semana ${week}: en ${days} días, ${bpPct}% en rango normal (${bpCount} medidas). Promedio ~${avgSys}/${avgDia} mmHg. 🐾`,
+          `Semana ${week}: ${bpPct}% de presiones en meta en ${days} días (${bpCount} lecturas), ~${avgSys}/${avgDia} mmHg de promedio. Buen seguimiento. 🐾`,
         ])
-      : `Semana ${week}: tu presión reciente promedia ~${avgSys}/${avgDia} mmHg, adecuada para monitoreo en esta etapa. Sigue midiendo en reposo, mismo brazo y horario similar. 🐾`;
+      : `Semana ${week}: en los últimos ${days} días, ${bpPct}% de tus presiones (${bpCount} medidas) estuvieron en rango normal, con promedio ~${avgSys}/${avgDia} mmHg. Sigue midiendo en reposo y mismo brazo. 🐾`;
   } else {
-    text = `Semana ${week}: vas bien con el seguimiento de presión. Mantén mediciones en reposo y comenta cualquier cambio en tu próxima cita prenatal. 🐾`;
+    text = `Semana ${week}: en ${days} días, ${bpPct}% en rango normal (${bpCount} medidas). Mantén el ritmo y comenta cualquier cambio en tu cita prenatal. 🐾`;
   }
 
   return { paragraph: trimParagraph(text), source: "local" };
@@ -268,7 +280,7 @@ export async function loadAiInsights(context, { force = false } = {}) {
 }
 
 export function formatAiInsightMeta(result, gestationalWeek) {
-  const week = gestationalWeek ?? 33;
+  const week = gestationalWeek ?? DEFAULT_GESTATIONAL_WEEK;
   if (result?.source === "ai") {
     return `Insight IA · Semana ${week}`;
   }

@@ -5,6 +5,14 @@ import {
   DEFAULT_GESTATIONAL_WEEK,
   newId,
 } from "./config.js";
+import { syncGestationalWeek, anchorGestationalWeek } from "./gestational-week.js";
+
+function applyProfileSync(data) {
+  const before = JSON.stringify(data.profile);
+  data.profile = syncGestationalWeek(data.profile || {});
+  if (JSON.stringify(data.profile) !== before) writeLocal(data);
+  return data;
+}
 
 function readLocal() {
   try {
@@ -19,7 +27,7 @@ function readLocal() {
       data.profile.gestational_week = DEFAULT_GESTATIONAL_WEEK;
       writeLocal(data);
     }
-    return data;
+    return applyProfileSync(data);
   } catch {
     return defaultLocalData();
   }
@@ -30,12 +38,13 @@ function writeLocal(data) {
 }
 
 function defaultLocalData() {
+  const profile = syncGestationalWeek({
+    patient_name: DEFAULT_PATIENT_NAME,
+    gestational_week: DEFAULT_GESTATIONAL_WEEK,
+    goals: { ...DEFAULT_GOALS },
+  });
   return {
-    profile: {
-      patient_name: DEFAULT_PATIENT_NAME,
-      gestational_week: DEFAULT_GESTATIONAL_WEEK,
-      goals: { ...DEFAULT_GOALS },
-    },
+    profile,
     glucose: [],
     blood_pressure: [],
   };
@@ -47,7 +56,10 @@ export async function getProfile() {
 
 export async function saveProfile(profile) {
   const data = readLocal();
-  data.profile = profile;
+  data.profile = anchorGestationalWeek(
+    { ...data.profile, ...profile },
+    profile.gestational_week ?? data.profile.gestational_week
+  );
   writeLocal(data);
 }
 
@@ -109,12 +121,16 @@ export async function importAllData(payload, { merge = true } = {}) {
 
   const data = merge ? readLocal() : defaultLocalData();
   if (payload.profile) {
-    data.profile = {
+    data.profile = syncGestationalWeek({
+      ...data.profile,
       patient_name: payload.profile.patient_name || payload.profile.name || data.profile.patient_name,
       gestational_week:
         payload.profile.gestational_week ?? data.profile.gestational_week ?? DEFAULT_GESTATIONAL_WEEK,
+      gestational_week_anchor: payload.profile.gestational_week_anchor ?? data.profile.gestational_week_anchor,
+      gestational_week_at_anchor:
+        payload.profile.gestational_week_at_anchor ?? data.profile.gestational_week_at_anchor,
       goals: payload.profile.goals || data.profile.goals,
-    };
+    });
   }
   const normalizedG = glucose.map(normalizeGlucoseImport);
   const normalizedBp = blood_pressure.map(normalizeBpImport);
